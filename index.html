@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Angular QuickStart JS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <!-- 3. Display the application -->
+    <body>
+        <init-app>Loading...</init-app>
+        <!-- build:vendor -->
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script src="systemjs.config.js"></script>
+        <!-- endbuild -->
+        <!-- build:app -->
+        <script>
+            System.import('app/vendor').then(function() {
+                System.import('app').catch(function(err){ console.error(err); });
+            });
+        </script>
+    </body>
+</html>

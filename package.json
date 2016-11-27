@@ -1,0 +1,64 @@
+{
+  "name": "personal-web-page",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "prod": "gulp prod"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "@angular/common": "~2.2.0",
+    "@angular/compiler": "~2.2.0",
+    "@angular/core": "~2.2.0",
+    "@angular/forms": "~2.2.0",
+    "@angular/http": "~2.2.0",
+    "@angular/platform-browser": "~2.2.0",
+    "@angular/platform-browser-dynamic": "~2.2.0",
+    "@angular/router": "~3.2.0",
+    "@angular/upgrade": "~2.2.0",
+    "angular-in-memory-web-api": "~0.1.15",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "^0.6.25",
+    "systemjs": "0.19.39"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.45",
+    "autoprefixer": "^6.5.1",
+    "concurrently": "^3.0.0",
+    "css-mqpacker": "^5.0.1",
+    "cssnano": "^3.8.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-consolidate": "^0.2.0",
+    "gulp-css-url-versioner": "^1.1.1",
+    "gulp-html-replace": "^1.6.1",
+    "gulp-iconfont": "^8.0.1",
+    "gulp-if": "^2.0.1",
+    "gulp-postcss": "^6.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-shell": "^0.5.2",
+    "gulp-stylus": "^2.5.0",
+    "gulp-util": "^3.0.7",
+    "lite-server": "^2.2.2",
+    "lodash": "^4.16.6",
+    "lost": "^7.1.0",
+    "node-notifier": "^4.6.1",
+    "run-sequence": "^1.2.2",
+    "rupture": "^0.6.2",
+    "sf": "^0.1.8",
+    "stylus": "^0.54.5",
+    "systemjs-builder": "^0.15.33",
+    "typescript": "^2.0.3"
+  }
+}
