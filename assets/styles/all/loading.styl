@@ -1,0 +1,72 @@
+.container-loading
+  width 100px
+  height 80%
+  display flex
+  flex-direction column
+  justify-content center
+  margin 0 auto
+
+.loader
+  position relative
+  .ring-a
+    animation loadingA 5s .3s linear infinite
+  .ring-b
+    animation loadingB 3s .3s linear infinite
+  .ring-c
+    animation loadingC 2s .3s linear infinite
+
+.ring
+  width 10px
+  height 10px
+  border 7px dashed $cTitle
+  border-radius 100%
+  position absolute
+  &.ring-a
+    padding 10px
+    left 30px
+    top 30px
+  &.ring-b
+    padding 25px
+    left 15px
+    top 15px
+  &.ring-c
+    padding 40px
+    left 0
+    top 0
+
+
+@keyframes loadingA {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingB {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes loadingC {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

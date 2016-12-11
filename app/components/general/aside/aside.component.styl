@@ -1,0 +1,26 @@
+@import "../../../../assets/styles/_config/colors"
+
+.search-box
+input[type="text"]
+  width 100%
+.main-list
+  margin 0 auto
+  padding 0
+  width 90%
+  h3
+    cursor pointer
+    margin 0
+    padding  6px 10px
+    transition background 0.2s ease-in
+    &:hover
+      background lighten($cLetter, 80%)
+.items
+  //display none
+  padding-left 0
+  a
+    display block
+    padding  6px 10px 6px 20px
+  li
+    transition background 0.2s ease-in
+    &:hover
+      background lighten($cLetter, 80%)

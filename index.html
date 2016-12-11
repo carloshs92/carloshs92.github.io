@@ -2,10 +2,20 @@
     <head>
         <title>Angular QuickStart JS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
     </head>
     <!-- 3. Display the application -->
     <body>
-        <init-app>Loading...</init-app>
+        <init-app>
+            <div class="container-loading">
+                <div class="loader">
+                    <div class="ring ring-a"></div>
+                    <div class="ring ring-b"></div>
+                    <div class="ring ring-c"></div>
+                </div>
+            </div>
+        </init-app>
         <!-- build:vendor -->
         <script src="node_modules/systemjs/dist/system.src.js"></script>
         <script src="systemjs.config.js"></script>
