@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { pathLabel, useExperience } from "./Experience";
+import { pathLabel, useNavigate } from "@/components/providers/PageTransitions";
+import { usePreferences } from "@/components/providers/Preferences";
+import { triggerRain } from "@/components/effects/BinaryRain";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
 
@@ -32,13 +34,15 @@ const HELP: Line[] = [
   { text: "  theme [dark|light]     cambia el tema" },
   { text: "  sound [on|off]         teclado mecánico" },
   { text: "  rain                   lluvia binaria ahora mismo" },
+  { text: "  human                  modo humano: vista limpia sin animaciones" },
   { text: "  whoami | date | github | linkedin | clear" },
   { text: "  tip: TAB autocompleta, ↑/↓ historial, ESC cierra", tone: "muted" },
 ];
 
 export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
   const pathname = usePathname();
-  const { navigate, setTheme, theme, setMuted, rain } = useExperience();
+  const navigate = useNavigate();
+  const { setTheme, theme, setMuted, setMode } = usePreferences();
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<Line[]>([]);
   const [open, setOpen] = useState(false);
@@ -138,7 +142,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
       }
       case "rain":
       case "matrix":
-        rain();
+        triggerRain();
         return print([{ text: "01001100 01101100 01110101 01110110 01101001 01100001", tone: "accent" }]);
       case "whoami":
         return print([
@@ -158,6 +162,10 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
         return print([{ text: "carlos no está en el archivo sudoers. Este incidente será reportado. 🚨", tone: "danger" }]);
       case "exit":
         return print([{ text: "No hay salida. Solo más código. :)", tone: "muted" }]);
+      case "human":
+      case "humano":
+        setMode("human");
+        return print([]);
       case "pwd":
         return print([{ text: `/home/carlos${pathname.replace(/\/+$/, "")}` }]);
       default:
@@ -170,7 +178,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
     const partial = rest.join(" ");
     let options: string[] = [];
     if (rest.length === 0) {
-      options = ["help", "ls", "cd", "open", "cat", "theme", "sound", "rain", "whoami", "clear", "github", "linkedin"];
+      options = ["help", "ls", "cd", "open", "cat", "theme", "sound", "rain", "human", "whoami", "clear", "github", "linkedin"];
       const hits = options.filter((o) => o.startsWith(name));
       if (hits.length === 1) setValue(`${hits[0]} `);
       else if (hits.length) print([{ text: hits.join("  "), tone: "muted" }]);

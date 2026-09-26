@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motionEnabled } from "@/lib/preferences";
 
-export const RAIN_EVENT = "binary-rain";
+const RAIN_EVENT = "binary-rain";
+
+/** Dispara la lluvia a demanda (p. ej. el comando `rain`). */
+export const triggerRain = () => window.dispatchEvent(new Event(RAIN_EVENT));
 
 /** Lluvia de 0 y 1 que aparece esporádicamente detrás del contenido. */
 export default function BinaryRain() {
@@ -11,7 +15,6 @@ export default function BinaryRain() {
   useEffect(() => {
     const canvas = ref.current!;
     const c = canvas.getContext("2d")!;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const size = 16;
     let w = 0;
     let h = 0;
@@ -76,6 +79,7 @@ export default function BinaryRain() {
     };
 
     const start = (duration = 6000 + Math.random() * 4000) => {
+      if (!motionEnabled()) return schedule();
       stopAt = performance.now() + duration;
       if (!running) {
         running = true;
@@ -96,7 +100,7 @@ export default function BinaryRain() {
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener(RAIN_EVENT, onManual);
-    if (!reduce) timer = setTimeout(() => start(), 3500);
+    timer = setTimeout(() => start(), 3500);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -106,5 +110,5 @@ export default function BinaryRain() {
     };
   }, []);
 
-  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-0 opacity-30 dark:opacity-40" />;
+  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-0 opacity-30 human:hidden dark:opacity-40" />;
 }

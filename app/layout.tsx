@@ -1,14 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Experience from "@/components/Experience";
-import BinaryRain from "@/components/BinaryRain";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import PreferencesProvider from "@/components/providers/Preferences";
+import PageTransitions from "@/components/providers/PageTransitions";
+import BinaryRain from "@/components/effects/BinaryRain";
+import KeySounds from "@/components/effects/KeySounds";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { bootScript } from "@/lib/preferences";
 import { getAllPosts } from "@/lib/posts";
 import { profile } from "@/data/profile";
 
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://carloshs92.github.io"),
@@ -25,25 +29,25 @@ export const viewport: Viewport = {
   ],
 };
 
-// Se ejecuta antes de pintar para evitar el parpadeo de tema
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}})()`;
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const posts = getAllPosts().map(({ slug, title, date }) => ({ slug, title, date }));
   return (
-    <html lang="es" data-theme="dark" className={mono.variable} suppressHydrationWarning>
+    <html lang="es" data-theme="dark" data-mode="terminal" className={`${mono.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
-        <Experience>
-          <BinaryRain />
-          <div className="relative z-10 flex min-h-dvh flex-col">
-            <Header posts={posts} />
-            <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:py-14">{children}</main>
-            <Footer />
-          </div>
-        </Experience>
+        <PreferencesProvider>
+          <PageTransitions>
+            <BinaryRain />
+            <KeySounds />
+            <div className="relative z-10 flex min-h-dvh flex-col">
+              <Header posts={posts} />
+              <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:py-14">{children}</main>
+              <Footer />
+            </div>
+          </PageTransitions>
+        </PreferencesProvider>
       </body>
     </html>
   );

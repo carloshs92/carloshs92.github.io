@@ -2,6 +2,13 @@
 
 export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos";
 
+export const categoryLabels: Record<ProjectCategory, string> = {
+  ia: "IA",
+  frontend: "Frontend",
+  testing: "Testing",
+  juegos: "Juegos",
+};
+
 export type Project = {
   slug: string;
   name: string;

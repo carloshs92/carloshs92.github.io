@@ -18,7 +18,8 @@ export const profile = {
 };
 
 export type Skill = { name: string; level: number };
-export type SkillGroup = { id: string; label: string; skills: Skill[] };
+/** `label` se usa en modo terminal, `title` en modo humano. */
+export type SkillGroup = { id: string; label: string; title: string; skills: Skill[] };
 
 // Las 4 habilidades principales (se muestran como gauges grandes)
 export const featuredSkills: Skill[] = [
@@ -32,6 +33,7 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "front",
     label: "frontend",
+    title: "Frontend",
     skills: [
       { name: "TypeScript", level: 92 },
       { name: "JavaScript (ES2024+)", level: 95 },
@@ -48,6 +50,7 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "ia",
     label: "ia",
+    title: "Inteligencia artificial",
     skills: [
       { name: "Claude Code / agentes de código", level: 94 },
       { name: "Claude API / Agent SDK", level: 86 },
@@ -64,6 +67,7 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "calidad",
     label: "testing",
+    title: "Testing y calidad",
     skills: [
       { name: "Jest / Vitest", level: 88 },
       { name: "React Testing Library", level: 88 },
@@ -75,6 +79,7 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "ops",
     label: "tooling",
+    title: "Herramientas y DevOps",
     skills: [
       { name: "Git / GitHub", level: 92 },
       { name: "Node.js", level: 80 },
@@ -98,8 +103,10 @@ export const softSkills = [
 export type Job = {
   role: string;
   company: string;
-  start: string;
-  end: string;
+  /** "YYYY" o "YYYY-MM" */
+  from: string;
+  /** vacío = puesto actual */
+  to?: string;
   mode: string;
   description: string;
   stack: string[];
@@ -109,8 +116,7 @@ export const experience: Job[] = [
   {
     role: "Front End Lead",
     company: "Delosi S.A.",
-    start: "sept. 2023",
-    end: "actualidad",
+    from: "2023-09",
     mode: "Lima, Perú · Híbrido",
     description:
       "Responsable de dictar los lineamientos técnicos de frontend y de supervisar el desarrollo de soluciones digitales que dan soporte al ecosistema de e-commerce.",
@@ -119,8 +125,8 @@ export const experience: Job[] = [
   {
     role: "Senior Frontend Developer",
     company: "Blum SAF",
-    start: "dic. 2021",
-    end: "sept. 2023",
+    from: "2021-12",
+    to: "2023-09",
     mode: "Remoto",
     description:
       "Encargado del equipo de desarrollo frontend, estableciendo estándares de código y flujos de trabajo que garantizan la entrega de aplicativos web ordenados, escalables y de alta calidad técnica.",
@@ -129,8 +135,8 @@ export const experience: Job[] = [
   {
     role: "Senior Frontend Developer",
     company: "Auna",
-    start: "may. 2021",
-    end: "ene. 2022",
+    from: "2021-05",
+    to: "2022-01",
     mode: "Remoto",
     description:
       "Desarrollo y optimización del ecosistema de e-commerce para el sector salud, con un stack moderno basado en React, TypeScript y GraphQL para una experiencia fluida y robusta.",
@@ -139,8 +145,8 @@ export const experience: Job[] = [
   {
     role: "Senior Frontend Developer · Líder del Chapter Front",
     company: "UTP Universidad Tecnológica del Perú",
-    start: "abr. 2018",
-    end: "abr. 2021",
+    from: "2018-04",
+    to: "2021-04",
     mode: "Lima, Perú · Presencial",
     description:
       "Líder del Chapter Front: desarrollo de aplicaciones web con React, TypeScript y Design System, y mantenimiento de apps móviles con Ionic y Angular para las áreas de innovación y sistemas.",
@@ -149,8 +155,8 @@ export const experience: Job[] = [
   {
     role: "Desarrollador Front-End",
     company: "Quantum Talent Co.",
-    start: "ene. 2020",
-    end: "dic. 2020",
+    from: "2020-01",
+    to: "2020-12",
     mode: "Remoto · Autónomo",
     description:
       "Desarrollo de requerimientos aplicando generator functions (redux-saga) para los distintos servicios del sistema junto con Redux.",
@@ -159,8 +165,8 @@ export const experience: Job[] = [
   {
     role: "Desarrollador Front-End",
     company: "Grupo El Comercio",
-    start: "2014",
-    end: "abr. 2018",
+    from: "2014",
+    to: "2018-04",
     mode: "Lima, Perú · Presencial",
     description:
       "Programador y principal encargado de proyectos con JavaScript, React y Angular, aplicando técnicas de optimización web y responsive design.",

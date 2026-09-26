@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Prompt from "@/components/Prompt";
-import Scramble from "@/components/Scramble";
-import ProjectGrid from "@/components/ProjectGrid";
+import Prompt from "@/components/terminal/Prompt";
+import Scramble from "@/components/terminal/Scramble";
+import ProjectGrid from "@/components/projects/ProjectGrid";
 import { projects } from "@/data/projects";
 
 export const metadata: Metadata = {

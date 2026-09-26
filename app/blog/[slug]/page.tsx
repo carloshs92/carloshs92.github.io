@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Prompt from "@/components/Prompt";
-import Scramble from "@/components/Scramble";
+import Prompt from "@/components/terminal/Prompt";
+import Scramble from "@/components/terminal/Scramble";
 import { formatDate, getAllPosts, getPost } from "@/lib/posts";
+import Say from "@/components/ui/Say";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -66,7 +67,7 @@ export default async function PostPage({ params }: Props) {
           )}
         </div>
         <Link href="/blog/" className="inline-block text-accent-3 hover:text-accent">
-          $ cd ..
+          <Say terminal="$ cd .." human="← Volver al blog" />
         </Link>
       </footer>
     </article>

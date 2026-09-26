@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* modo humano: vista limpia para reclutadores (ver lib/preferences.ts) */
+@custom-variant human (&:where([data-mode="human"], [data-mode="human"] *));
 
 /* ---------- Tokens ---------- */
 :root {
@@ -38,6 +40,40 @@
   color-scheme: dark;
 }
 
+/* ---------- Tokens del modo humano ---------- */
+[data-mode="human"] {
+  --bg: #f6f7f9;
+  --bg-soft: #eef0f3;
+  --panel: #ffffff;
+  --fg: #111827;
+  --muted: #4b5563;
+  --dim: #9ca3af;
+  --line: #e5e7eb;
+  --accent: #047857;
+  --accent-2: #b45309;
+  --accent-3: #1d4ed8;
+  --glow: 0 0 0 transparent;
+  /* series de gráficos (validadas: contraste y daltonismo) */
+  --chart-1: #059669;
+  --chart-2: #2563eb;
+  --chart-track: #eef0f3;
+}
+[data-mode="human"][data-theme="dark"] {
+  --bg: #0f1115;
+  --bg-soft: #181b22;
+  --panel: #151820;
+  --fg: #e5e7eb;
+  --muted: #a1a7b3;
+  --dim: #6b7280;
+  --line: #262a33;
+  --accent: #34d399;
+  --accent-2: #fbbf24;
+  --accent-3: #60a5fa;
+  --chart-1: #0ea371;
+  --chart-2: #3b82f6;
+  --chart-track: #232833;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-soft: var(--bg-soft);
@@ -50,7 +86,11 @@
   --color-accent-2: var(--accent-2);
   --color-accent-3: var(--accent-3);
   --color-danger: var(--danger);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-track: var(--chart-track);
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ---------- Base ---------- */
@@ -67,6 +107,14 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+[data-mode="human"] body {
+  font-family: var(--font-sans);
+}
+[data-mode="human"] code,
+[data-mode="human"] pre {
+  font-family: var(--font-mono);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--bg);
@@ -77,7 +125,7 @@ a {
 }
 
 /* scanlines + viñeta sutil (solo dark) */
-[data-theme="dark"] body::after {
+[data-mode="terminal"][data-theme="dark"] body::after {
   content: "";
   position: fixed;
   inset: 0;
@@ -91,7 +139,7 @@ a {
   );
   mix-blend-mode: multiply;
 }
-[data-theme="dark"] body::before {
+[data-mode="terminal"][data-theme="dark"] body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -180,11 +228,11 @@ a {
 .prose-term h3 {
   font-size: 1.15em;
 }
-.prose-term h2::before {
+[data-mode="terminal"] .prose-term h2::before {
   content: "## ";
   color: var(--dim);
 }
-.prose-term h3::before {
+[data-mode="terminal"] .prose-term h3::before {
   content: "### ";
   color: var(--dim);
 }
@@ -293,4 +341,37 @@ a {
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* ---------- Impresión: CV limpio ---------- */
+@media print {
+  :root,
+  [data-theme="dark"] {
+    --bg: #ffffff;
+    --bg-soft: #f3f4f6;
+    --panel: #ffffff;
+    --fg: #111827;
+    --muted: #4b5563;
+    --dim: #9ca3af;
+    --line: #e5e7eb;
+    --accent: #047857;
+    --accent-3: #1d4ed8;
+    --chart-1: #059669;
+    --chart-2: #2563eb;
+    --chart-track: #eef0f3;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+  body::before,
+  body::after {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
 }

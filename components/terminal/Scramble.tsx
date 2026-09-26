@@ -1,6 +1,7 @@
 "use client";
 
 import { createElement, useEffect, useRef } from "react";
+import { motionEnabled } from "@/lib/preferences";
 
 const CHARS = "01<>/{}[]#$%&*+=_ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -18,7 +19,7 @@ export default function Scramble({ text, as = "span", className, delay = 120, du
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!el || !motionEnabled()) return;
     let raf = 0;
     let start = 0;
     const tick = (now: number) => {

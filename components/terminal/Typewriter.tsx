@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motionEnabled } from "@/lib/preferences";
 
 /** Escribe `text` letra por letra, como si alguien lo tecleara. */
 export default function Typewriter({ text, delay = 0, speed = 55, className = "" }: { text: string; delay?: number; speed?: number; className?: string }) {
   const [count, setCount] = useState(text.length);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!motionEnabled()) return;
     setCount(0);
     let i = 0;
     let timer: ReturnType<typeof setTimeout>;

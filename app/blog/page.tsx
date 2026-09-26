@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Prompt from "@/components/Prompt";
-import Scramble from "@/components/Scramble";
-import BlogList from "@/components/BlogList";
+import Prompt from "@/components/terminal/Prompt";
+import Scramble from "@/components/terminal/Scramble";
+import BlogList from "@/components/blog/BlogList";
 import { formatDate, getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {

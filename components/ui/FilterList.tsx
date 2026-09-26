@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Say from "@/components/ui/Say";
 
 /** Chips de filtro estilo flags de CLI: `--tag=ia` */
 export default function FilterList<T>({
@@ -8,12 +9,15 @@ export default function FilterList<T>({
   getTags,
   render,
   flag = "tag",
+  labelFor = (tag) => tag,
   className = "",
 }: {
   items: T[];
   getTags: (item: T) => string[];
   render: (item: T) => React.ReactNode;
   flag?: string;
+  /** Etiqueta legible para el modo humano */
+  labelFor?: (tag: string) => string;
   className?: string;
 }) {
   const [active, setActive] = useState<string | null>(null);
@@ -26,18 +30,18 @@ export default function FilterList<T>({
         <button
           type="button"
           onClick={() => setActive(null)}
-          className={`rounded border px-2.5 py-1 ${active === null ? "border-accent bg-accent text-bg" : "border-line text-muted hover:text-accent"}`}
+          className={`rounded border px-2.5 py-1 human:rounded-full human:px-3 ${active === null ? "border-accent bg-accent text-bg" : "border-line text-muted hover:text-accent"}`}
         >
-          --all
+          <Say terminal="--all" human="Todos" />
         </button>
         {tags.map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setActive(t === active ? null : t)}
-            className={`rounded border px-2.5 py-1 ${t === active ? "border-accent bg-accent text-bg" : "border-line text-muted hover:text-accent"}`}
+            className={`rounded border px-2.5 py-1 human:rounded-full human:px-3 ${t === active ? "border-accent bg-accent text-bg" : "border-line text-muted hover:text-accent"}`}
           >
-            --{flag}={t}
+            <Say terminal={`--${flag}=${t}`} human={labelFor(t)} />
           </button>
         ))}
       </div>
