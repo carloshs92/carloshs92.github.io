@@ -76,8 +76,8 @@ export function keyClick(heavy = false) {
 }
 
 /** Ráfaga de teclas para acompañar la transición entre páginas. */
-export function typingBurst(count = 6, spacing = 55) {
+export function typingBurst(count = 3, spacing = 90) {
   for (let i = 0; i < count; i++) {
-    setTimeout(() => keyClick(i === count - 1), i * spacing + Math.random() * 25);
+    setTimeout(() => keyClick(i === count - 1), (i + 1) * spacing + Math.random() * 30);
   }
 }

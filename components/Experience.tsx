@@ -100,7 +100,7 @@ export default function Experience({ children }: { children: React.ReactNode }) 
       busy.current = true;
       const ov = overlay.current;
       ov.label = `cd ${pathLabel(url.pathname)}`;
-      typingBurst(7, 48);
+      typingBurst(3, 90);
       await Promise.all([
         deconstruct(main),
         ov.cover(origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 }),
@@ -115,7 +115,6 @@ export default function Experience({ children }: { children: React.ReactNode }) 
       window.scrollTo(0, 0);
       await new Promise((r) => setTimeout(r, 32));
       assemble(main);
-      keyClick(true);
       await ov.reveal();
       busy.current = false;
     },

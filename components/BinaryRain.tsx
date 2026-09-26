@@ -39,7 +39,7 @@ export default function BinaryRain() {
       const rgb = color();
       // desvanece lo dibujado sin pintar fondo (canvas transparente)
       c.globalCompositeOperation = "destination-out";
-      c.fillStyle = "rgba(0,0,0,0.12)";
+      c.fillStyle = "rgba(0,0,0,0.08)";
       c.fillRect(0, 0, w, h);
       c.globalCompositeOperation = "source-over";
       c.font = `${size - 2}px ${getComputedStyle(document.body).fontFamily}`;
@@ -51,7 +51,7 @@ export default function BinaryRain() {
           if (spawning && Math.random() < 0.012) {
             d.active = true;
             d.y = -Math.random() * 20;
-            d.speed = 0.35 + Math.random() * 0.6;
+            d.speed = 0.18 + Math.random() * 0.32;
           } else return;
         }
         alive++;

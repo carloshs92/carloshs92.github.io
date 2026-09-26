@@ -139,26 +139,12 @@ a {
   border-radius: 999px;
 }
 
-/* hover glitch para links de navegación */
+/* hover sutil para links de navegación */
 .glitch-hover {
-  position: relative;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 .glitch-hover:hover {
-  animation: glitch-x 0.35s steps(2) 1;
-}
-@keyframes glitch-x {
-  0% {
-    text-shadow: 2px 0 var(--accent-3), -2px 0 var(--danger);
-    transform: translateX(1px);
-  }
-  50% {
-    text-shadow: -2px 0 var(--accent-3), 2px 0 var(--danger);
-    transform: translateX(-1px);
-  }
-  100% {
-    text-shadow: none;
-    transform: none;
-  }
+  text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent);
 }
 
 /* barra de skill que se llena */

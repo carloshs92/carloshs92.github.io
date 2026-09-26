@@ -1,9 +1,10 @@
 // Efecto de transición: la página actual se "desestructura" en fragmentos,
-// una malla de glifos cubre la pantalla desde el punto del click y luego
-// se disuelve mientras la nueva página se ensambla pieza por pieza.
+// un barrido circular con glifos en el borde cubre la pantalla desde el
+// punto del click y luego se abre mientras la nueva página se ensambla.
 
 const GLYPHS = "01010101<>/{}[]#$%&*+=;:_|";
 const CELL = 22;
+const EDGE = 0.09; // ancho de la franja de glifos en el borde del barrido
 
 type Cell = { x: number; y: number; t: number; glyph: string; showGlyph: boolean };
 type Point = { x: number; y: number };
@@ -21,6 +22,8 @@ export class GlyphOverlay {
   private ctx: CanvasRenderingContext2D;
   private w = 0;
   private h = 0;
+  private origin: Point = { x: 0, y: 0 };
+  private maxD = 1;
   label = "";
 
   constructor(private canvas: HTMLCanvasElement) {
@@ -34,51 +37,59 @@ export class GlyphOverlay {
     this.canvas.width = this.w * dpr;
     this.canvas.height = this.h * dpr;
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.origin = origin;
+    this.maxD = Math.hypot(Math.max(origin.x, this.w - origin.x), Math.max(origin.y, this.h - origin.y));
     const cols = Math.ceil(this.w / CELL);
     const rows = Math.ceil(this.h / CELL);
-    const maxD = Math.hypot(Math.max(origin.x, this.w - origin.x), Math.max(origin.y, this.h - origin.y));
     this.cells = [];
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const x = c * CELL;
-        const y = r * CELL;
-        const d = Math.hypot(x + CELL / 2 - origin.x, y + CELL / 2 - origin.y) / maxD;
-        this.cells.push({ x, y, t: d * 0.82 + Math.random() * 0.18, glyph: pick(), showGlyph: Math.random() < 0.4 });
+        const x = c * CELL + CELL / 2;
+        const y = r * CELL + CELL / 2;
+        const d = Math.hypot(x - origin.x, y - origin.y) / this.maxD;
+        this.cells.push({ x, y, t: d + rand(-0.04, 0.04), glyph: pick(), showGlyph: Math.random() < 0.18 });
       }
     }
   }
 
   private draw(p: number, mode: "cover" | "reveal") {
-    const { ctx } = this;
+    const { ctx, origin } = this;
     const bg = cssVar("--bg") || "#000";
     const accent = cssVar("--accent") || "#39ff88";
     const fg = cssVar("--fg") || "#fff";
+    const radius = Math.max(0, p) * this.maxD;
     ctx.clearRect(0, 0, this.w, this.h);
-    ctx.font = `600 ${CELL - 8}px ${getComputedStyle(document.body).fontFamily}`;
+
+    // superficie lisa: un círculo que crece (cover) o un hueco que se abre (reveal)
+    ctx.fillStyle = bg;
+    ctx.beginPath();
+    if (mode === "cover") {
+      ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
+    } else {
+      ctx.rect(0, 0, this.w, this.h);
+      ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2, true);
+    }
+    ctx.fill("evenodd");
+
+    ctx.font = `500 ${CELL - 9}px ${getComputedStyle(document.body).fontFamily}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.fillStyle = accent;
 
     for (const cell of this.cells) {
-      const visible = mode === "cover" ? cell.t <= p : cell.t > p;
-      if (!visible) continue;
-      const edge = Math.abs(p - cell.t) < 0.07;
-      if (Math.random() < 0.08) cell.glyph = pick();
-      if (edge) {
-        ctx.fillStyle = accent;
-        ctx.fillRect(cell.x, cell.y, CELL, CELL);
-        ctx.fillStyle = bg;
-        ctx.fillText(cell.glyph, cell.x + CELL / 2, cell.y + CELL / 2 + 1);
-      } else {
-        ctx.fillStyle = bg;
-        ctx.fillRect(cell.x, cell.y, CELL, CELL);
-        if (cell.showGlyph) {
-          ctx.globalAlpha = 0.18 + Math.random() * 0.25;
-          ctx.fillStyle = accent;
-          ctx.fillText(cell.glyph, cell.x + CELL / 2, cell.y + CELL / 2 + 1);
-          ctx.globalAlpha = 1;
-        }
-      }
+      // distancia al frente del barrido (0 = justo en el borde)
+      const gap = mode === "cover" ? p - cell.t : cell.t - p;
+      if (gap < -EDGE * 0.5) continue;
+      if (Math.random() < 0.06) cell.glyph = pick();
+      if (gap < EDGE) {
+        // franja del borde: glifos más brillantes que se apagan hacia adentro
+        ctx.globalAlpha = 0.85 * (1 - Math.abs(gap) / EDGE);
+      } else if (cell.showGlyph) {
+        ctx.globalAlpha = 0.08 + Math.random() * 0.08;
+      } else continue;
+      ctx.fillText(cell.glyph, cell.x, cell.y + 1);
     }
+    ctx.globalAlpha = 1;
 
     // comando en el centro mientras la pantalla está cubierta
     const labelAlpha = mode === "cover" ? Math.max(0, (p - 0.55) / 0.45) : Math.max(0, 1 - p / 0.35);
@@ -89,8 +100,6 @@ export class GlyphOverlay {
       const tw = ctx.measureText(text).width + 36;
       ctx.fillStyle = bg;
       ctx.fillRect(this.w / 2 - tw / 2, this.h / 2 - 24, tw, 48);
-      ctx.strokeStyle = accent;
-      ctx.strokeRect(this.w / 2 - tw / 2 + 0.5, this.h / 2 - 23.5, tw - 1, 47);
       ctx.fillStyle = fg;
       ctx.fillText(text + (Math.floor(performance.now() / 300) % 2 ? "▋" : " "), this.w / 2, this.h / 2 + 1);
       ctx.globalAlpha = 1;
@@ -105,7 +114,7 @@ export class GlyphOverlay {
       const guard = setTimeout(resolve, duration + 600);
       const tick = (now: number) => {
         const p = Math.min(1, (now - start) / duration);
-        this.draw(easeInOut(p) * 1.08, mode);
+        this.draw(easeInOut(p) * (1 + EDGE * 1.5), mode);
         if (p < 1) requestAnimationFrame(tick);
         else {
           clearTimeout(guard);
