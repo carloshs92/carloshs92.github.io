@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Tokens ---------- */
+:root {
+  /* light: terminal sobre papel */
+  --bg: #f3f1ea;
+  --bg-soft: #e9e6dc;
+  --panel: #fbfaf6;
+  --fg: #1d2a20;
+  --muted: #5f6b62;
+  --dim: #9aa39c;
+  --line: #d3d0c4;
+  --accent: #0b8043;
+  --accent-2: #b25e00;
+  --accent-3: #1f5fbf;
+  --danger: #c0392b;
+  --glow: 0 0 0 transparent;
+  --rain: 11, 128, 67;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #07100b;
+  --bg-soft: #0c1811;
+  --panel: #0a140e;
+  --fg: #c9f7d3;
+  --muted: #7fa58a;
+  --dim: #3f5a47;
+  --line: #1b3325;
+  --accent: #39ff88;
+  --accent-2: #ffb000;
+  --accent-3: #5cc8ff;
+  --danger: #ff5f56;
+  --glow: 0 0 12px rgb(57 255 136 / 0.35);
+  --rain: 57, 255, 136;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-panel: var(--panel);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-danger: var(--danger);
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+/* scanlines + viñeta sutil (solo dark) */
+[data-theme="dark"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0) 0px,
+    rgb(0 0 0 / 0) 2px,
+    rgb(0 0 0 / 0.12) 3px
+  );
+  mix-blend-mode: multiply;
+}
+[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 59;
+  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55) 100%);
+}
+
+.glow {
+  text-shadow: var(--glow);
+}
+
+.cursor::after {
+  content: "▋";
+  margin-left: 2px;
+  color: var(--accent);
+  animation: blink 1.05s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.term-window {
+  background: color-mix(in oklab, var(--panel) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(3px);
+}
+
+.term-window > .term-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.term-bar .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+/* hover glitch para links de navegación */
+.glitch-hover {
+  position: relative;
+}
+.glitch-hover:hover {
+  animation: glitch-x 0.35s steps(2) 1;
+}
+@keyframes glitch-x {
+  0% {
+    text-shadow: 2px 0 var(--accent-3), -2px 0 var(--danger);
+    transform: translateX(1px);
+  }
+  50% {
+    text-shadow: -2px 0 var(--accent-3), 2px 0 var(--danger);
+    transform: translateX(-1px);
+  }
+  100% {
+    text-shadow: none;
+    transform: none;
+  }
+}
+
+/* barra de skill que se llena */
+.meter-fill {
+  transform-origin: left;
+  animation: meter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes meter {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------- Prosa del blog ---------- */
+.prose-term {
+  line-height: 1.8;
+  font-size: 15px;
+}
+.prose-term > * + * {
+  margin-top: 1.1em;
+}
+.prose-term h2,
+.prose-term h3,
+.prose-term h4 {
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 2em;
+  scroll-margin-top: 6rem;
+}
+.prose-term h2 {
+  font-size: 1.35em;
+}
+.prose-term h3 {
+  font-size: 1.15em;
+}
+.prose-term h2::before {
+  content: "## ";
+  color: var(--dim);
+}
+.prose-term h3::before {
+  content: "### ";
+  color: var(--dim);
+}
+.prose-term a {
+  color: var(--accent-3);
+  text-decoration: underline;
+}
+.prose-term strong {
+  color: var(--fg);
+  font-weight: 700;
+}
+.prose-term ul,
+.prose-term ol {
+  padding-left: 1.4em;
+}
+.prose-term ul {
+  list-style: none;
+}
+.prose-term ul > li::before {
+  content: "›";
+  color: var(--accent);
+  margin-left: -1.1em;
+  margin-right: 0.6em;
+}
+.prose-term ul.contains-task-list > li::before {
+  content: none;
+}
+.prose-term ol {
+  list-style: decimal;
+}
+.prose-term li + li {
+  margin-top: 0.35em;
+}
+.prose-term blockquote {
+  border-left: 3px solid var(--accent-2);
+  padding: 0.4em 1em;
+  color: var(--muted);
+  background: var(--bg-soft);
+}
+.prose-term :not(pre) > code {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--accent-2);
+}
+.prose-term pre {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1em 1.1em;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.prose-term table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+.prose-term th,
+.prose-term td {
+  border: 1px solid var(--line);
+  padding: 0.45em 0.8em;
+  text-align: left;
+}
+.prose-term th {
+  color: var(--accent);
+  background: var(--bg-soft);
+}
+.prose-term hr {
+  border-color: var(--line);
+}
+.prose-term img {
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.prose-term input[type="checkbox"] {
+  accent-color: var(--accent);
+  margin-right: 0.5em;
+}
+
+/* rehype-pretty-code: temas claro/oscuro */
+.prose-term pre code span {
+  color: var(--shiki-light);
+}
+[data-theme="dark"] .prose-term pre code span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* cambio de tema con círculo (View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
