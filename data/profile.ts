@@ -1,4 +1,6 @@
 // Toda la información del CV vive aquí: edita este archivo para actualizar /perfil.
+// /perfil muestra indicadores, habilidades y certificaciones; la experiencia y la
+// educación completas se consultan en LinkedIn (profile.links.linkedin).
 
 export const profile = {
   name: "Carlos Huamani",
@@ -112,6 +114,10 @@ export type Job = {
   stack: string[];
 };
 
+/**
+ * Trayectoria resumida: solo alimenta los indicadores (rol actual, empresas).
+ * El detalle completo de experiencia y educación vive en LinkedIn.
+ */
 export const experience: Job[] = [
   {
     role: "Front End Lead",
@@ -171,24 +177,6 @@ export const experience: Job[] = [
     description:
       "Programador y principal encargado de proyectos con JavaScript, React y Angular, aplicando técnicas de optimización web y responsive design.",
     stack: ["JavaScript", "React", "Angular", "Responsive", "Performance"],
-  },
-];
-
-export const education = [
-  {
-    school: "Universidad Peruana de Ciencias Aplicadas (UPC)",
-    degree: "Ingeniería de Sistemas",
-    period: "2014 – 2017",
-  },
-  {
-    school: "Escuela de Posgrado · Universidad San Ignacio de Loyola",
-    degree: "Programa Especializado en Diseño de Aplicaciones y Chatbots con IA",
-    period: "mar. 2025 – may. 2025",
-  },
-  {
-    school: "Escuela de Postgrado UTP",
-    degree: "Especialización en Innovación Empresarial",
-    period: "2018 – 2019",
   },
 ];
 

@@ -6,7 +6,7 @@ import { profile } from "@/data/profile";
 
 export const metadata: Metadata = {
   title: "Perfil de ingeniero",
-  description: `CV de ${profile.name}: habilidades, experiencia, educación y certificaciones.`,
+  description: `Perfil de ${profile.name}: indicadores, habilidades y certificaciones. Trayectoria completa en LinkedIn.`,
 };
 
 export default function PerfilPage() {

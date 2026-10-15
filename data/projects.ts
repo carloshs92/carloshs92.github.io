@@ -1,4 +1,5 @@
 // Proyectos y aprendizajes: agrega un objeto a la lista para publicar uno nuevo.
+// El orden importa: los 3 primeros salen como destacados en el inicio.
 
 export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos";
 
@@ -17,12 +18,29 @@ export type Project = {
   status: "live" | "demo" | "archivo";
   description: string;
   stack: string[];
+  /** Página de presentación del proyecto; si existe, es el enlace principal. */
+  landing?: string;
+  /** Solo repos públicos: un repo privado da 404 a los visitantes. */
   repo?: string;
   demo?: string;
   article?: string;
 };
 
+/** Enlace principal de una tarjeta: landing, luego demo, luego repo. */
+export const primaryLink = (p: Project) => p.landing ?? p.demo ?? p.repo;
+
 export const projects: Project[] = [
+  {
+    slug: "sol-firme",
+    name: "Sol Firme",
+    year: 2026,
+    category: "juegos",
+    status: "live",
+    description:
+      "Juego gratis sobre la política monetaria del BCRP: presides el Banco Central y, mes a mes, mantienes la inflación entre 1% y 3% sin apagar el país. Modo Historia con capítulos reales (1990, 2008, 2017, 2020, 2021–23), mapa del Perú por regiones y música andina generada en el navegador.",
+    stack: ["JavaScript", "Vite", "Web Audio", "Cloudflare Workers"],
+    landing: "https://carloshs92.github.io/sol-firme-landing/",
+  },
   {
     slug: "model-ai-jev-demos",
     name: "Jev Demos (TypeSafe AI)",
@@ -47,36 +65,26 @@ export const projects: Project[] = [
     demo: "https://sin-panza.vercel.app",
   },
   {
-    slug: "bcrp-game",
-    name: "Guardián de la Estabilidad",
-    year: 2026,
-    category: "juegos",
-    status: "demo",
-    description:
-      "Juego educativo sobre política monetaria del BCRP: controla inflación, tipo de cambio y reservas. Pixel art cyberpunk andino, música adaptativa y un asesor económico que da pistas.",
-    stack: ["JavaScript", "Canvas", "Web Audio", "LocalStorage"],
-    repo: "https://github.com/carloshs92/bcrp-game",
-  },
-  {
     slug: "usil-grupo-2",
-    name: "Proyecto final · Apps y Chatbots con IA",
+    name: "Academia Bot · Americano FC",
     year: 2025,
     category: "ia",
     status: "live",
     description:
-      "Aplicación desarrollada en el Programa Especializado en Diseño de Aplicaciones y Chatbots con IA de la USIL.",
-    stack: ["Next.js", "TypeScript", "IA"],
+      "Chatbot con RAG para la academia de fútbol Americano FC: responde con la base de conocimiento de la academia (Pinecone) y streaming de respuestas. Proyecto final del programa de Apps y Chatbots con IA de la USIL.",
+    stack: ["Next.js", "Vercel AI SDK", "OpenAI", "Pinecone", "Firebase"],
     repo: "https://github.com/carloshs92/usil-grupo-2",
     demo: "https://usil-grupo-2.vercel.app",
   },
   {
     slug: "team2-chatbot-comidas",
-    name: "Chatbot de comidas",
+    name: "Chatbot de comida peruana",
     year: 2025,
     category: "ia",
     status: "archivo",
-    description: "Chatbot en Python desarrollado en equipo como trabajo final del programa de IA de la USIL.",
-    stack: ["Python", "Chatbot"],
+    description:
+      "Llama 3.2 ajustado con LoRA para conversar sobre comida peruana, servido por WhatsApp con Twilio y Flask. Trabajo en equipo del programa de IA de la USIL.",
+    stack: ["Python", "Llama 3.2", "LoRA / PEFT", "Twilio", "Flask"],
     repo: "https://github.com/carloshs92/Team2ChatbotComidas",
   },
   {
@@ -100,17 +108,6 @@ export const projects: Project[] = [
       "Serie de ejemplos con LangChain y TypeScript: leer documentos, chatbots, conversar con un libro, vectores con Pinecone y RAG sobre Notion + Firestore.",
     stack: ["LangChain", "TypeScript", "OpenAI", "Pinecone"],
     repo: "https://github.com/carloshs92/langchain-demos",
-    article: "https://carloshuamani.com",
-  },
-  {
-    slug: "javascript-testing-frontend-course",
-    name: "Frontend testing con Testing Library",
-    year: 2021,
-    category: "testing",
-    status: "archivo",
-    description: "Material de curso sobre testing frontend con Testing Library y Jest.",
-    stack: ["Jest", "Testing Library", "JavaScript"],
-    repo: "https://github.com/carloshs92/javascript-testing-frontend-course",
   },
   {
     slug: "mocha-tutorial-primeros-pasos",

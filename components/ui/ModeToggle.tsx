@@ -31,7 +31,7 @@ export default function ModeToggle({ variant = "compact" }: Props) {
       onClick={() => setMode(toHuman ? "human" : "terminal")}
       aria-pressed={!toHuman}
       className="rounded border border-line px-2 py-1 text-muted hover:border-accent hover:text-accent"
-      title={toHuman ? "Vista limpia, sin animaciones" : "Volver a la experiencia terminal"}
+      title={toHuman ? "Vista limpia, sin animaciones" : "Ver la versión para desarrolladores"}
     >
       {toHuman ? "◉ modo humano" : "›_ modo terminal"}
     </button>

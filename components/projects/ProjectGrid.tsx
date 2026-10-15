@@ -3,6 +3,7 @@
 import FilterList from "@/components/ui/FilterList";
 import { categoryLabels, type Project, type ProjectCategory } from "@/data/projects";
 import Say from "@/components/ui/Say";
+import { Tag } from "@/components/ds";
 
 const STATUS: Record<Project["status"], { label: string; dot: string }> = {
   live: { label: "online", dot: "bg-accent animate-pulse" },
@@ -34,12 +35,15 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
             <p className="flex-1 text-sm text-muted">{p.description}</p>
             <div className="flex flex-wrap gap-1.5">
               {p.stack.map((s) => (
-                <span key={s} className="rounded bg-bg-soft px-2 py-0.5 text-[11px] text-accent">
-                  {s}
-                </span>
+                <Tag key={s}>{s}</Tag>
               ))}
             </div>
             <div className="flex flex-wrap gap-4 border-t border-line pt-3 text-sm">
+              {p.landing && (
+                <a href={p.landing} target="_blank" rel="noreferrer" className="font-bold text-accent hover:underline">
+                  <Say terminal="▶ open landing" human="Ir al sitio ↗" />
+                </a>
+              )}
               {p.demo && (
                 <a href={p.demo} target="_blank" rel="noreferrer" className="font-bold text-accent hover:underline">
                   <Say terminal="▶ demo" human="Ver demo" />

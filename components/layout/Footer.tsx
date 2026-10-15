@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { profile } from "@/data/profile";
 
 export default function Footer() {
@@ -18,6 +19,9 @@ export default function Footer() {
           <a href={profile.links.medium} target="_blank" rel="noreferrer" className="hover:text-accent">
             medium
           </a>
+          <Link href="/design-system/" className="hover:text-accent">
+            design system
+          </Link>
           <a href="/feed.xml" className="hover:text-accent">
             rss
           </a>

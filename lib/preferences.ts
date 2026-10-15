@@ -17,7 +17,8 @@ export const STORAGE_KEYS = {
   muted: "muted",
 } as const;
 
-export const DEFAULT_MODE: ViewMode = "terminal";
+/** Quien llega por primera vez ve el modo humano; el terminal se elige con el botón. */
+export const DEFAULT_MODE: ViewMode = "human";
 
 export function readPreferences(): Preferences {
   const root = document.documentElement;
@@ -47,7 +48,7 @@ export function motionEnabled() {
 
 /**
  * Script inline que corre antes de pintar: aplica tema y modo guardados
- * para que no haya parpadeo. `?modo=humano` en la URL fuerza el modo humano
- * (útil para compartir el perfil con un reclutador).
+ * para que no haya parpadeo. Sin preferencia guardada se usa DEFAULT_MODE.
+ * `?modo=terminal` o `?modo=humano` en la URL fuerzan un modo (útil para compartir).
  */
-export const bootScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('${STORAGE_KEYS.theme}');if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.dataset.theme=t;var m=localStorage.getItem('${STORAGE_KEYS.mode}');var q=new URLSearchParams(location.search).get('modo');if(q==='humano'||q==='human'){m='human'}else if(q==='terminal'){m='terminal'}d.dataset.mode=m==='human'?'human':'${DEFAULT_MODE}'}catch(e){d.dataset.theme='dark';d.dataset.mode='${DEFAULT_MODE}'}})()`;
+export const bootScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('${STORAGE_KEYS.theme}');if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.dataset.theme=t;var m=localStorage.getItem('${STORAGE_KEYS.mode}');var q=new URLSearchParams(location.search).get('modo');if(q==='humano'||q==='human'){m='human'}else if(q==='terminal'){m='terminal'}d.dataset.mode=m==='terminal'||m==='human'?m:'${DEFAULT_MODE}'}catch(e){d.dataset.theme='dark';d.dataset.mode='${DEFAULT_MODE}'}})()`;

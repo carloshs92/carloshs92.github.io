@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { buttonClass } from "@/components/ds";
 import Prompt from "@/components/terminal/Prompt";
 import Scramble from "@/components/terminal/Scramble";
 import Typewriter from "@/components/terminal/Typewriter";
 import { featuredSkills, profile } from "@/data/profile";
-import { projects } from "@/data/projects";
+import { primaryLink, projects } from "@/data/projects";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { currentJob, yearsOfExperience } from "@/lib/profile";
 
@@ -56,13 +57,13 @@ export default function HomeTerminal() {
           {profile.role}. Construyo interfaces rápidas y accesibles, y las conecto con modelos de lenguaje.
         </p>
         <div className="flex flex-wrap gap-3 text-sm" data-piece>
-          <Link href="/perfil/" className="rounded border border-accent bg-accent px-4 py-2 font-bold text-bg hover:opacity-90">
+          <Link href="/perfil/" className={buttonClass({ variant: "primary", size: "md" })}>
             ./ver-perfil.sh
           </Link>
-          <Link href="/blog/" className="rounded border border-line px-4 py-2 hover:border-accent hover:text-accent">
+          <Link href="/blog/" className={buttonClass({ size: "md" })}>
             cat blog/*
           </Link>
-          <Link href="/proyectos/" className="rounded border border-line px-4 py-2 hover:border-accent hover:text-accent">
+          <Link href="/proyectos/" className={buttonClass({ size: "md" })}>
             ls proyectos/
           </Link>
         </div>
@@ -109,7 +110,7 @@ export default function HomeTerminal() {
         <Prompt cmd="ls -la ~/" />
         <ul className="space-y-1 text-sm">
           {[
-            ["/perfil/", "perfil/", "CV, habilidades como estadísticas y experiencia"],
+            ["/perfil/", "perfil/", "stats, habilidades y certificaciones"],
             ["/blog/", "blog/", "posts en markdown sobre frontend e IA"],
             ["/proyectos/", "proyectos/", "demos, experimentos y aprendizajes"],
           ].map(([href, name, desc]) => (
@@ -149,7 +150,7 @@ export default function HomeTerminal() {
           {projects.slice(0, 3).map((p) => (
             <a
               key={p.slug}
-              href={p.demo ?? p.repo}
+              href={primaryLink(p)}
               target="_blank"
               rel="noreferrer"
               className="group rounded border border-line p-4 hover:border-accent"

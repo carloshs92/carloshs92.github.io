@@ -32,7 +32,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const posts = getAllPosts().map(({ slug, title, date }) => ({ slug, title, date }));
   return (
-    <html lang="es" data-theme="dark" data-mode="terminal" className={`${mono.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="es" data-theme="dark" data-mode="human" className={`${mono.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>

@@ -6,7 +6,7 @@ import { pathLabel, useNavigate } from "@/components/providers/PageTransitions";
 import { usePreferences } from "@/components/providers/Preferences";
 import { triggerRain } from "@/components/effects/BinaryRain";
 import { profile } from "@/data/profile";
-import { projects } from "@/data/projects";
+import { primaryLink, projects } from "@/data/projects";
 
 export type CommandBarPost = { slug: string; title: string; date: string };
 
@@ -111,7 +111,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
         if (arg.startsWith("proyectos"))
           return print(projects.map((p) => ({ text: `${p.year}  ${p.slug}/` })));
         return print([
-          { text: "drwxr-xr-x  perfil/      cv, habilidades y experiencia" },
+          { text: "drwxr-xr-x  perfil/      stats, habilidades y certificaciones" },
           { text: "drwxr-xr-x  blog/        posts en markdown" },
           { text: "drwxr-xr-x  proyectos/   demos y aprendizajes" },
         ]);
@@ -126,8 +126,10 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
       case "open": {
         const p = projects.find((x) => x.slug === arg || x.name.toLowerCase() === arg.toLowerCase());
         if (!p) return print([{ text: `open: ${arg || "?"}: proyecto no encontrado (prueba: ls proyectos)`, tone: "danger" }]);
-        window.open(p.demo ?? p.repo, "_blank", "noopener");
-        return print([{ text: `abriendo ${p.demo ?? p.repo} ...`, tone: "accent" }]);
+        const url = primaryLink(p);
+        if (!url) return print([{ text: `open: ${p.slug}: sin enlace público`, tone: "danger" }]);
+        window.open(url, "_blank", "noopener");
+        return print([{ text: `abriendo ${url} ...`, tone: "accent" }]);
       }
       case "theme": {
         const next = arg === "light" || arg === "dark" ? arg : theme === "dark" ? "light" : "dark";
