@@ -2,12 +2,10 @@ import ModeToggle from "@/components/ui/ModeToggle";
 import PrintButton from "@/components/ui/PrintButton";
 import { certifications, featuredSkills, profile, skillGroups, softSkills } from "@/data/profile";
 import { certificationCount, companyCount, currentJob, groupAverages, skillCount, yearsOfExperience } from "@/lib/profile";
-import BarList from "./BarList";
-import Card from "./Card";
-import KpiTile from "./KpiTile";
+import { BarList, buttonClass, Card, KpiTile, Tag } from "@/components/ds";
 
-const button = "rounded-lg border border-line bg-panel px-3 py-1.5 text-sm font-medium text-fg hover:border-accent hover:text-accent";
-const primaryButton = "rounded-lg border border-accent bg-accent px-3 py-1.5 text-sm font-medium text-panel hover:opacity-90";
+const button = buttonClass();
+const primaryButton = buttonClass({ variant: "primary" });
 
 /** Perfil en modo humano: dashboard sobrio pensado para reclutadores. */
 export default function ProfileDashboard() {
@@ -99,7 +97,7 @@ export default function ProfileDashboard() {
             Más de {yearsOfExperience()} años en {companyCount()} empresas, hoy como {job.role} en {job.company.replace(/\.$/, "")}. Si quieres conocer cada
             puesto, mis estudios y recomendaciones, visita mi perfil de LinkedIn.
           </p>
-          <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className={`${primaryButton} mt-4 inline-block print:hidden`}>
+          <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className={`${primaryButton} mt-4 print:hidden`}>
             Ver trayectoria en LinkedIn ↗
           </a>
           <p className="mt-2 hidden text-xs text-muted print:block">{profile.links.linkedin}</p>
@@ -109,9 +107,9 @@ export default function ProfileDashboard() {
       <Card title="Habilidades blandas">
         <div className="flex flex-wrap gap-2">
           {softSkills.map((s) => (
-            <span key={s} className="rounded-full border border-line px-3 py-1 text-sm text-fg">
+            <Tag key={s} variant="pill">
               {s}
-            </span>
+            </Tag>
           ))}
         </div>
       </Card>

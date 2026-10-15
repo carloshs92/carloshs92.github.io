@@ -1,6 +1,7 @@
 import Prompt from "@/components/terminal/Prompt";
 import Scramble from "@/components/terminal/Scramble";
 import ModeToggle from "@/components/ui/ModeToggle";
+import { buttonClass } from "@/components/ds";
 import PrintButton from "@/components/ui/PrintButton";
 import { FeaturedSkill, SkillTabs, StatCounter } from "./Skills";
 import { certifications, featuredSkills, profile, skillGroups, softSkills } from "@/data/profile";
@@ -19,10 +20,10 @@ export default function ProfileTerminal() {
           ))}
         </div>
         <div className="flex flex-wrap gap-3 text-sm" data-piece>
-          <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="rounded border border-line px-3 py-1.5 hover:border-accent hover:text-accent">
+          <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className={buttonClass()}>
             linkedin ↗
           </a>
-          <a href={profile.links.github} target="_blank" rel="noreferrer" className="rounded border border-line px-3 py-1.5 hover:border-accent hover:text-accent">
+          <a href={profile.links.github} target="_blank" rel="noreferrer" className={buttonClass()}>
             github ↗
           </a>
           <PrintButton />
@@ -84,7 +85,7 @@ export default function ProfileTerminal() {
               href={profile.links.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="mt-4 inline-block rounded border border-accent bg-accent px-3 py-1.5 font-bold text-bg hover:opacity-90"
+              className={`${buttonClass({ variant: "primary" })} mt-4`}
             >
               open linkedin ↗
             </a>

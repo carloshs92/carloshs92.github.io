@@ -19,6 +19,7 @@ npm run build  # sitio estático en out/
 | Proyectos / aprendizajes (los 3 primeros son los destacados del inicio) | `data/projects.ts` |
 | Posts del blog | `content/blog/*.md` |
 | Colores (terminal y humano, dark/light) | `app/globals.css` |
+| Componentes del design system | `components/ds/` (guía en `DESIGN_SYSTEM.md`, vista en `/design-system/`) |
 
 Post nuevo: crea `content/blog/mi-post.md` con frontmatter `title`, `date`, `description`, `tags` (y `draft: true` para ocultarlo).
 
@@ -41,9 +42,10 @@ lib/profile.ts          datos derivados del CV (años, promedios, línea de tiem
 components/
   providers/            Preferences (tema/modo/sonido) · PageTransitions (navegación animada)
   effects/              BinaryRain · KeySounds (se apagan solos en modo humano)
+  ds/                   design system: buttonClass · Card · KpiTile · BarList · Tag
   ui/                   ModeView · ModeToggle · Say · FilterList · PrintButton
   terminal/             piezas de la estética terminal (CommandBar, Prompt, Scramble…)
-  home/ profile/        una vista por modo: *Terminal.tsx y *Human.tsx / human/*
+  home/ profile/        una vista por modo: *Terminal.tsx y *Human.tsx / human/ProfileDashboard.tsx
 ```
 
 - **Vista distinta por página:** envuelve la página en `<ModeView terminal={…} human={…} />`. Ambas vistas se generan en el HTML estático y el CSS muestra la correcta, así que no hay parpadeo.

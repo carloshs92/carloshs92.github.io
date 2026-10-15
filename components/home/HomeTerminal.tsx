@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClass } from "@/components/ds";
 import Prompt from "@/components/terminal/Prompt";
 import Scramble from "@/components/terminal/Scramble";
 import Typewriter from "@/components/terminal/Typewriter";
@@ -56,13 +57,13 @@ export default function HomeTerminal() {
           {profile.role}. Construyo interfaces rápidas y accesibles, y las conecto con modelos de lenguaje.
         </p>
         <div className="flex flex-wrap gap-3 text-sm" data-piece>
-          <Link href="/perfil/" className="rounded border border-accent bg-accent px-4 py-2 font-bold text-bg hover:opacity-90">
+          <Link href="/perfil/" className={buttonClass({ variant: "primary", size: "md" })}>
             ./ver-perfil.sh
           </Link>
-          <Link href="/blog/" className="rounded border border-line px-4 py-2 hover:border-accent hover:text-accent">
+          <Link href="/blog/" className={buttonClass({ size: "md" })}>
             cat blog/*
           </Link>
-          <Link href="/proyectos/" className="rounded border border-line px-4 py-2 hover:border-accent hover:text-accent">
+          <Link href="/proyectos/" className={buttonClass({ size: "md" })}>
             ls proyectos/
           </Link>
         </div>

@@ -4,7 +4,9 @@
 /* modo humano: vista limpia para reclutadores (ver lib/preferences.ts) */
 @custom-variant human (&:where([data-mode="human"], [data-mode="human"] *));
 
-/* ---------- Tokens ---------- */
+/* ---------- Tokens ----------
+   Design system: ver DESIGN_SYSTEM.md y /design-system/.
+   Solo se usan a través de las clases de Tailwind (bg-panel, text-muted…). */
 :root {
   /* light: terminal sobre papel */
   --bg: #f3f1ea;
@@ -20,6 +22,10 @@
   --danger: #c0392b;
   --glow: 0 0 0 transparent;
   --rain: 11, 128, 67;
+  /* series de gráficos: en terminal siguen al acento (el modo humano las redefine) */
+  --chart-1: var(--accent);
+  --chart-2: var(--accent-3);
+  --chart-track: var(--bg-soft);
   color-scheme: light;
 }
 
