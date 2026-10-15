@@ -15,7 +15,7 @@ npm run build  # sitio estático en out/
 
 | Qué | Archivo |
 | --- | --- |
-| CV, habilidades, experiencia, educación | `data/profile.ts` |
+| Perfil: indicadores, habilidades, certificaciones, enlace a LinkedIn | `data/profile.ts` |
 | Proyectos / aprendizajes | `data/projects.ts` |
 | Posts del blog | `content/blog/*.md` |
 | Colores (terminal y humano, dark/light) | `app/globals.css` |
@@ -38,7 +38,6 @@ Enlaces directos para compartir: `https://carloshs92.github.io/?modo=terminal` o
 ```
 lib/preferences.ts      tema + modo + sonido: claves, script de arranque, motionEnabled()
 lib/profile.ts          datos derivados del CV (años, promedios, línea de tiempo)
-lib/dates.ts            fechas "YYYY-MM", rangos y duraciones
 components/
   providers/            Preferences (tema/modo/sonido) · PageTransitions (navegación animada)
   effects/              BinaryRain · KeySounds (se apagan solos en modo humano)

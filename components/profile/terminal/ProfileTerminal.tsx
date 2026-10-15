@@ -3,11 +3,10 @@ import Scramble from "@/components/terminal/Scramble";
 import ModeToggle from "@/components/ui/ModeToggle";
 import PrintButton from "@/components/ui/PrintButton";
 import { FeaturedSkill, SkillTabs, StatCounter } from "./Skills";
-import { certifications, education, experience, featuredSkills, profile, skillGroups, softSkills } from "@/data/profile";
-import { formatYearMonth } from "@/lib/dates";
-import { companyCount, credentialCount, shortHash, skillCount, yearsOfExperience } from "@/lib/profile";
+import { certifications, featuredSkills, profile, skillGroups, softSkills } from "@/data/profile";
+import { certificationCount, companyCount, skillCount, yearsOfExperience } from "@/lib/profile";
 
-/** Perfil en modo terminal: estadísticas estilo htop y experiencia como git log. */
+/** Perfil en modo terminal: estadísticas estilo htop y certificaciones; la trayectoria vive en LinkedIn. */
 export default function ProfileTerminal() {
   return (
     <div className="space-y-16">
@@ -35,7 +34,7 @@ export default function ProfileTerminal() {
         <StatCounter value={yearsOfExperience()} suffix="+" label="años de experiencia" />
         <StatCounter value={companyCount()} label="empresas" />
         <StatCounter value={skillCount()} label="tecnologías en el stack" />
-        <StatCounter value={credentialCount()} label="estudios y certificaciones" />
+        <StatCounter value={certificationCount()} label="certificaciones" />
       </section>
 
       <section className="space-y-5">
@@ -58,57 +57,7 @@ export default function ProfileTerminal() {
         </div>
       </section>
 
-      <section className="space-y-5">
-        <Prompt cmd="git log --graph --experiencia" path="~/perfil" />
-        <h2 className="text-xl font-bold text-accent">
-          <span className="text-dim">## </span>Experiencia
-        </h2>
-        <ol className="relative">
-          {experience.map((job, i) => (
-            <li key={`${job.company}-${job.from}`} className="relative flex gap-4 pb-8 last:pb-0">
-              <div className="flex flex-col items-center" aria-hidden>
-                <span className={`mt-1 size-3 shrink-0 rounded-full border-2 ${i === 0 ? "border-accent bg-accent" : "border-accent-3 bg-bg"}`} />
-                {i < experience.length - 1 && <span className="w-px flex-1 bg-line" />}
-              </div>
-              <div className="min-w-0 flex-1" data-piece>
-                <div className="flex flex-wrap items-center gap-x-2 text-xs">
-                  <span className="text-accent-2">commit {shortHash(job.company + job.from)}</span>
-                  {i === 0 && <span className="rounded bg-accent px-1.5 font-bold text-bg">HEAD → actual</span>}
-                  <span className="text-muted">
-                    {formatYearMonth(job.from)} — {formatYearMonth(job.to)}
-                  </span>
-                </div>
-                <h3 className="mt-1 font-bold text-fg">
-                  {job.role} <span className="text-accent-3">@ {job.company}</span>
-                </h3>
-                <p className="text-xs text-muted">{job.mode}</p>
-                <p className="mt-2 text-sm text-fg/90">{job.description}</p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {job.stack.map((t) => (
-                    <span key={t} className="rounded bg-bg-soft px-2 py-0.5 text-[11px] text-accent">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       <section className="grid gap-8 md:grid-cols-2">
-        <div className="space-y-4">
-          <Prompt cmd="ls educacion/" path="~/perfil" />
-          <ul className="space-y-3">
-            {education.map((e) => (
-              <li key={e.degree} className="rounded border border-line p-4" data-piece>
-                <div className="text-xs text-muted">{e.period}</div>
-                <div className="mt-1 font-bold text-fg">{e.degree}</div>
-                <div className="text-sm text-accent-3">{e.school}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
         <div className="space-y-4">
           <Prompt cmd="ls certificaciones/" path="~/perfil" />
           <ul className="space-y-3">
@@ -121,6 +70,25 @@ export default function ProfileTerminal() {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="space-y-4">
+          <Prompt cmd="git log --experiencia --educacion" path="~/perfil" />
+          <div className="rounded border border-line p-4 text-sm" data-piece>
+            <p className="text-muted">
+              <span className="text-accent-2">remote:</span> el historial completo se movió a LinkedIn.
+            </p>
+            <p className="mt-2 text-fg">
+              {yearsOfExperience()}+ años · {companyCount()} empresas · experiencia y educación con todo el detalle.
+            </p>
+            <a
+              href={profile.links.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-4 inline-block rounded border border-accent bg-accent px-3 py-1.5 font-bold text-bg hover:opacity-90"
+            >
+              open linkedin ↗
+            </a>
+          </div>
         </div>
       </section>
     </div>

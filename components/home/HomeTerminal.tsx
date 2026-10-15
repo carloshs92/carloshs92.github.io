@@ -109,7 +109,7 @@ export default function HomeTerminal() {
         <Prompt cmd="ls -la ~/" />
         <ul className="space-y-1 text-sm">
           {[
-            ["/perfil/", "perfil/", "CV, habilidades como estadísticas y experiencia"],
+            ["/perfil/", "perfil/", "stats, habilidades y certificaciones"],
             ["/blog/", "blog/", "posts en markdown sobre frontend e IA"],
             ["/proyectos/", "proyectos/", "demos, experimentos y aprendizajes"],
           ].map(([href, name, desc]) => (

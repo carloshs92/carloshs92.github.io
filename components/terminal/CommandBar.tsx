@@ -111,7 +111,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
         if (arg.startsWith("proyectos"))
           return print(projects.map((p) => ({ text: `${p.year}  ${p.slug}/` })));
         return print([
-          { text: "drwxr-xr-x  perfil/      cv, habilidades y experiencia" },
+          { text: "drwxr-xr-x  perfil/      stats, habilidades y certificaciones" },
           { text: "drwxr-xr-x  blog/        posts en markdown" },
           { text: "drwxr-xr-x  proyectos/   demos y aprendizajes" },
         ]);
