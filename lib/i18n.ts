@@ -11,13 +11,14 @@ export type Text = string | { es: string; en: string };
 
 export const tr = (text: Text, locale: Locale) => (typeof text === "string" ? text : text[locale]);
 
-export type RouteKey = "home" | "profile" | "blog" | "projects";
+export type RouteKey = "home" | "profile" | "blog" | "projects" | "work";
 
 export const ROUTES: Record<RouteKey, Record<Locale, string>> = {
   home: { es: "/", en: "/en/" },
   profile: { es: "/perfil/", en: "/en/profile/" },
   blog: { es: "/blog/", en: "/en/blog/" },
   projects: { es: "/proyectos/", en: "/en/projects/" },
+  work: { es: "/trabajemos-juntos/", en: "/en/work-with-me/" },
 };
 
 export const href = (key: RouteKey, locale: Locale) => ROUTES[key][locale];

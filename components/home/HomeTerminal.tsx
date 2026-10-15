@@ -27,7 +27,8 @@ const COPY = {
     tagline: "Construyo interfaces rápidas y accesibles, y las conecto con modelos de lenguaje.",
     profileBtn: "./ver-perfil.sh",
     projectsDir: "proyectos",
-    dirs: ["stats, habilidades y certificaciones", "posts en markdown sobre frontend e IA", "demos, experimentos y aprendizajes"],
+    workDir: "trabajemos-juntos",
+    dirs: ["stats, habilidades y certificaciones", "posts en markdown sobre frontend e IA", "demos, experimentos y aprendizajes", "servicios, mentorías y contacto"],
     postsNote: "",
     allProjects: "→ ver todos los proyectos",
   },
@@ -38,7 +39,8 @@ const COPY = {
     tagline: "I build fast, accessible interfaces and wire them up to language models.",
     profileBtn: "./view-profile.sh",
     projectsDir: "projects",
-    dirs: ["stats, skills and certifications", "markdown posts on frontend and AI (in Spanish)", "demos, experiments and learning"],
+    workDir: "work-with-me",
+    dirs: ["stats, skills and certifications", "markdown posts on frontend and AI (in Spanish)", "demos, experiments and learning", "services, mentoring and contact"],
     postsNote: "# posts are written in Spanish",
     allProjects: "→ see all projects",
   },
@@ -141,11 +143,12 @@ export default function HomeTerminal({ locale = "es" }: { locale?: Locale }) {
             [href("profile", locale), locale === "es" ? "perfil/" : "profile/", t.dirs[0]],
             [href("blog", locale), "blog/", t.dirs[1]],
             [href("projects", locale), `${t.projectsDir}/`, t.dirs[2]],
+            [href("work", locale), `${t.workDir}/`, t.dirs[3]],
           ].map(([to, name, desc]) => (
             <li key={to}>
               <Link href={to} className="group flex flex-wrap gap-x-4 rounded px-2 py-1.5 hover:bg-bg-soft">
                 <span className="text-dim">drwxr-xr-x</span>
-                <span className="w-28 font-bold text-accent-3 group-hover:text-accent">{name}</span>
+                <span className="w-44 font-bold text-accent-3 group-hover:text-accent">{name}</span>
                 <span className="text-muted">{desc}</span>
               </Link>
             </li>

@@ -26,6 +26,13 @@ const SECTIONS: Record<string, RouteKey> = {
   blog: "blog",
   proyectos: "projects",
   projects: "projects",
+  "trabajemos-juntos": "work",
+  trabajemos: "work",
+  "work-with-me": "work",
+  work: "work",
+  contacto: "work",
+  contact: "work",
+  hire: "work",
 };
 
 const COPY = {
@@ -33,7 +40,7 @@ const COPY = {
     help: [
       { text: "comandos disponibles:", tone: "accent" },
       { text: "  ls [blog|proyectos]    lista secciones, posts o proyectos" },
-      { text: "  cd <seccion>           navega: perfil, blog, proyectos, ~, .." },
+      { text: "  cd <seccion>           navega: perfil, blog, proyectos, trabajemos-juntos, ~, .." },
       { text: "  cd blog/<post>         abre un post" },
       { text: "  open <proyecto>        abre la demo o el repo" },
       { text: "  cat cv                 ver el perfil de ingeniero" },
@@ -45,11 +52,12 @@ const COPY = {
       { text: "  whoami | date | github | linkedin | clear" },
       { text: "  tip: TAB autocompleta, ↑/↓ historial, ESC cierra", tone: "muted" },
     ] as Line[],
-    sections: ["perfil", "blog", "proyectos"],
+    sections: ["perfil", "blog", "proyectos", "trabajemos-juntos"],
     ls: [
       { text: "drwxr-xr-x  perfil/      stats, habilidades y certificaciones" },
       { text: "drwxr-xr-x  blog/        posts en markdown" },
       { text: "drwxr-xr-x  proyectos/   demos y aprendizajes" },
+      { text: "drwxr-xr-x  trabajemos-juntos/  servicios y contacto" },
     ] as Line[],
     notFound: (name: string, arg: string) => `bash: ${name}: ${arg}: No existe el archivo o el directorio`,
     noProject: (arg: string) => `open: ${arg}: proyecto no encontrado (prueba: ls proyectos)`,
@@ -69,7 +77,7 @@ const COPY = {
     help: [
       { text: "available commands:", tone: "accent" },
       { text: "  ls [blog|projects]     list sections, posts or projects" },
-      { text: "  cd <section>           go to: profile, blog, projects, ~, .." },
+      { text: "  cd <section>           go to: profile, blog, projects, work-with-me, ~, .." },
       { text: "  cd blog/<post>         open a post" },
       { text: "  open <project>         open the demo or repo" },
       { text: "  cat cv                 view the engineer profile" },
@@ -81,11 +89,12 @@ const COPY = {
       { text: "  whoami | date | github | linkedin | clear" },
       { text: "  tip: TAB completes, ↑/↓ history, ESC closes", tone: "muted" },
     ] as Line[],
-    sections: ["profile", "blog", "projects"],
+    sections: ["profile", "blog", "projects", "work-with-me"],
     ls: [
       { text: "drwxr-xr-x  profile/     stats, skills and certifications" },
       { text: "drwxr-xr-x  blog/        markdown posts (in Spanish)" },
       { text: "drwxr-xr-x  projects/    demos and learning" },
+      { text: "drwxr-xr-x  work-with-me/  services and contact" },
     ] as Line[],
     notFound: (name: string, arg: string) => `bash: ${name}: ${arg}: No such file or directory`,
     noProject: (arg: string) => `open: ${arg}: project not found (try: ls projects)`,
@@ -257,7 +266,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
     }
     if (name === "cd" || name === "cat") options = [...t.sections, "~", "..", ...posts.map((p) => `blog/${p.slug}`)];
     if (name === "open") options = projects.map((p) => p.slug);
-    if (name === "ls") options = t.sections.slice(1);
+    if (name === "ls") options = t.sections.slice(1, 3);
     if (name === "lang") options = ["es", "en"];
     if (name === "theme") options = ["dark", "light"];
     if (name === "sound") options = ["on", "off"];

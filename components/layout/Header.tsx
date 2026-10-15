@@ -17,12 +17,14 @@ const NAV: Record<Locale, { href: string; label: string; human: string }[]> = {
     { href: href("profile", "es"), label: "perfil", human: "Perfil" },
     { href: href("blog", "es"), label: "blog", human: "Blog" },
     { href: href("projects", "es"), label: "proyectos", human: "Proyectos" },
+    { href: href("work", "es"), label: "trabajemos", human: "Trabajemos juntos" },
   ],
   en: [
     { href: href("home", "en"), label: "home", human: "Home" },
     { href: href("profile", "en"), label: "profile", human: "Profile" },
     { href: href("blog", "en"), label: "blog", human: "Blog" },
     { href: href("projects", "en"), label: "projects", human: "Projects" },
+    { href: href("work", "en"), label: "work-with-me", human: "Work with me" },
   ],
 };
 
