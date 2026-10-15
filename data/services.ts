@@ -12,27 +12,27 @@ export const services: Service[] = [
     slug: "frontend",
     title: { es: "Liderazgo y consultoría frontend", en: "Frontend leadership and consulting" },
     description: {
-      es: "Lineamientos técnicos, arquitectura con Next.js y React, code review y acompañamiento a equipos que necesitan ordenar o escalar su frontend.",
-      en: "Technical guidelines, Next.js and React architecture, code review and support for teams that need to organize or scale their frontend.",
+      es: "Defino lineamientos técnicos, diseño la arquitectura con Next.js y React y acompaño a los equipos que necesitan ordenar o escalar su frontend, con code review incluido.",
+      en: "I set technical guidelines, design Next.js and React architecture, and support teams that need to organize or scale their frontend, code review included.",
     },
     examples: [
       { es: "Auditoría de arquitectura", en: "Architecture audit" },
       { es: "Migración a Next.js", en: "Migration to Next.js" },
-      { es: "Estándares y code review", en: "Standards and code review" },
+      { es: "Estándares de código y code review", en: "Coding standards and code review" },
     ],
   },
   {
     id: "ia",
     slug: { es: "ia", en: "ai" },
-    title: { es: "Productos con IA", en: "AI-powered products" },
+    title: { es: "Inteligencia artificial aplicada", en: "Applied AI" },
     description: {
-      es: "Diseño y construcción de experiencias con modelos de lenguaje: chatbots con RAG, agentes, integraciones con Claude y MCP, y flujos de desarrollo asistidos por IA.",
-      en: "Designing and building experiences with language models: RAG chatbots, agents, Claude and MCP integrations, and AI-assisted development workflows.",
+      es: "Diseño y construyo funciones con IA que la gente realmente usa: asistentes que responden con la información de tu negocio, agentes conectados a tus sistemas y equipos que programan más rápido con Claude Code.",
+      en: "I design and build AI features people actually use: assistants that answer from your business's own information, agents connected to your systems, and teams that ship faster with Claude Code.",
     },
     examples: [
-      { es: "Chatbots con RAG", en: "RAG chatbots" },
-      { es: "Agentes y MCP", en: "Agents and MCP" },
-      { es: "Adopción de Claude Code en equipos", en: "Rolling out Claude Code to teams" },
+      { es: "Chatbots con tu información (RAG)", en: "Chatbots on your own data (RAG)" },
+      { es: "Agentes con Claude y MCP", en: "Agents with Claude and MCP" },
+      { es: "Claude Code para tu equipo", en: "Claude Code for your team" },
     ],
   },
   {
@@ -40,8 +40,8 @@ export const services: Service[] = [
     slug: { es: "design-systems", en: "design-systems" },
     title: { es: "Design systems y performance", en: "Design systems and performance" },
     description: {
-      es: "Componentes reutilizables, accesibilidad y Core Web Vitals para que el producto se vea consistente y cargue rápido.",
-      en: "Reusable components, accessibility and Core Web Vitals so the product looks consistent and loads fast.",
+      es: "Creo componentes reutilizables y accesibles, y optimizo los Core Web Vitals para que tu producto se vea igual de bien en cada pantalla y cargue rápido.",
+      en: "I build reusable, accessible components and tune Core Web Vitals so your product looks consistent on every screen and loads fast.",
     },
     examples: [
       { es: "Design system en React", en: "React design system" },
@@ -54,8 +54,8 @@ export const services: Service[] = [
     slug: { es: "mentorias", en: "mentoring" },
     title: { es: "Mentorías y charlas", en: "Mentoring and talks" },
     description: {
-      es: "Sesiones uno a uno para devs frontend, talleres para equipos y charlas sobre frontend moderno e IA aplicada.",
-      en: "One-on-one sessions for frontend developers, team workshops and talks on modern frontend and applied AI.",
+      es: "Acompaño a desarrolladores frontend en sesiones uno a uno, doy talleres a equipos y charlas sobre frontend moderno e IA en el trabajo diario.",
+      en: "I mentor frontend developers one-on-one, run team workshops and give talks on modern frontend and AI in day-to-day work.",
     },
     examples: [
       { es: "Mentoría 1:1", en: "1:1 mentoring" },
@@ -68,15 +68,15 @@ export const services: Service[] = [
 export const steps: { title: Text; description: Text }[] = [
   {
     title: { es: "Conversamos", en: "We talk" },
-    description: { es: "Me cuentas el problema, el equipo y los plazos.", en: "You tell me about the problem, the team and the timeline." },
+    description: { es: "Me cuentas qué quieres lograr, con qué equipo cuentas y en qué plazos.", en: "You tell me what you want to achieve, the team you have and your timeline." },
   },
   {
     title: { es: "Propuesta", en: "Proposal" },
-    description: { es: "Te envío un alcance concreto con entregables y tiempos.", en: "I send you a concrete scope with deliverables and timing." },
+    description: { es: "Te envío un alcance claro, con entregables, tiempos y presupuesto.", en: "I send you a clear scope with deliverables, timing and budget." },
   },
   {
     title: { es: "Manos a la obra", en: "We get to work" },
-    description: { es: "Trabajamos en ciclos cortos, con avances que puedes ver.", en: "We work in short cycles, with progress you can see." },
+    description: { es: "Avanzamos en ciclos cortos y revisas resultados al final de cada uno.", en: "We move in short cycles and you review results at the end of each one." },
   },
 ];
 

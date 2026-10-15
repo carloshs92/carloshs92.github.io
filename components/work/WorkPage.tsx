@@ -12,11 +12,11 @@ const COPY = {
     path: "~/trabajemos-juntos",
     title: "Trabajemos juntos",
     intro:
-      "Ayudo a equipos y empresas a construir productos web rápidos, ordenados y con IA donde aporta valor. Trabajo de forma remota desde Lima, en español o inglés.",
+      "Ayudo a equipos y empresas a construir productos web rápidos, mantenibles y fáciles de usar, y sumo inteligencia artificial cuando de verdad resuelve un problema. Trabajo de forma remota desde Lima, en español o inglés.",
     services: "Cómo te puedo ayudar",
     how: "Cómo trabajamos",
     ctaTitle: "¿Tienes un proyecto en mente?",
-    ctaBody: "Escríbeme por LinkedIn con un par de líneas sobre lo que necesitas y te respondo.",
+    ctaBody: "Cuéntame por LinkedIn, en un par de líneas, qué necesitas y te respondo con los siguientes pasos.",
     linkedin: "Escríbeme por LinkedIn ↗",
     email: "Enviar un correo",
     calendar: "Agendar una llamada ↗",
@@ -26,11 +26,11 @@ const COPY = {
     path: "~/work-with-me",
     title: "Work with me",
     intro:
-      "I help teams and companies build web products that are fast, well organized and use AI where it adds value. I work remotely from Lima, in English or Spanish.",
+      "I help teams and companies build web products that are fast, maintainable and easy to use, and I bring in AI when it genuinely solves a problem. I work remotely from Lima, in English or Spanish.",
     services: "How I can help",
     how: "How we work",
     ctaTitle: "Have a project in mind?",
-    ctaBody: "Message me on LinkedIn with a couple of lines about what you need and I'll get back to you.",
+    ctaBody: "Tell me on LinkedIn, in a couple of lines, what you need and I'll get back to you with next steps.",
     linkedin: "Message me on LinkedIn ↗",
     email: "Send an email",
     calendar: "Book a call ↗",
@@ -58,7 +58,7 @@ export default function WorkPage({ locale }: { locale: Locale }) {
         <div className="grid gap-4 md:grid-cols-2">
           {services.map((s) => (
             <article key={s.id} className="term-window flex flex-col" data-piece>
-              <div className="term-bar human:hidden">
+              <div className="term-bar" data-terminal-only>
                 <i className="dot bg-accent" />
                 <span className="truncate">
                   {t.path}/{tr(s.slug, locale)}
