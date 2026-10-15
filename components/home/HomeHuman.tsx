@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { featuredSkills, profile } from "@/data/profile";
-import { projects } from "@/data/projects";
+import { primaryLink, projects } from "@/data/projects";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { companyCount, currentJob, yearsOfExperience } from "@/lib/profile";
 
@@ -57,7 +57,7 @@ export default function HomeHuman() {
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {projects.slice(0, 3).map((p) => (
-            <a key={p.slug} href={p.demo ?? p.repo} target="_blank" rel="noreferrer" className={card}>
+            <a key={p.slug} href={primaryLink(p)} target="_blank" rel="noreferrer" className={card}>
               <p className="text-xs text-muted">{p.year}</p>
               <p className="mt-2 font-medium text-fg">{p.name}</p>
               <p className="mt-1 line-clamp-3 text-sm text-muted">{p.description}</p>

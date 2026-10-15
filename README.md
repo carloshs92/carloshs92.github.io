@@ -16,7 +16,7 @@ npm run build  # sitio estático en out/
 | Qué | Archivo |
 | --- | --- |
 | Perfil: indicadores, habilidades, certificaciones, enlace a LinkedIn | `data/profile.ts` |
-| Proyectos / aprendizajes | `data/projects.ts` |
+| Proyectos / aprendizajes (los 3 primeros son los destacados del inicio) | `data/projects.ts` |
 | Posts del blog | `content/blog/*.md` |
 | Colores (terminal y humano, dark/light) | `app/globals.css` |
 

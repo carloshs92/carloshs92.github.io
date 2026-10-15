@@ -3,7 +3,7 @@ import Prompt from "@/components/terminal/Prompt";
 import Scramble from "@/components/terminal/Scramble";
 import Typewriter from "@/components/terminal/Typewriter";
 import { featuredSkills, profile } from "@/data/profile";
-import { projects } from "@/data/projects";
+import { primaryLink, projects } from "@/data/projects";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { currentJob, yearsOfExperience } from "@/lib/profile";
 
@@ -149,7 +149,7 @@ export default function HomeTerminal() {
           {projects.slice(0, 3).map((p) => (
             <a
               key={p.slug}
-              href={p.demo ?? p.repo}
+              href={primaryLink(p)}
               target="_blank"
               rel="noreferrer"
               className="group rounded border border-line p-4 hover:border-accent"

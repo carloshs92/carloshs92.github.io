@@ -40,6 +40,11 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
               ))}
             </div>
             <div className="flex flex-wrap gap-4 border-t border-line pt-3 text-sm">
+              {p.landing && (
+                <a href={p.landing} target="_blank" rel="noreferrer" className="font-bold text-accent hover:underline">
+                  <Say terminal="▶ open landing" human="Ir al sitio ↗" />
+                </a>
+              )}
               {p.demo && (
                 <a href={p.demo} target="_blank" rel="noreferrer" className="font-bold text-accent hover:underline">
                   <Say terminal="▶ demo" human="Ver demo" />
