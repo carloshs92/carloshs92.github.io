@@ -26,10 +26,12 @@ Post nuevo: crea `content/blog/mi-post.md` con frontmatter `title`, `date`, `des
 
 El sitio tiene dos modos, que se eligen con el botón del header y se guardan en el navegador:
 
-- **terminal**: la experiencia completa (transiciones, sonido, lluvia binaria, barra de comandos).
-- **humano**: vista limpia, sin animaciones ni jerga; en `/perfil` se muestra como dashboard para reclutadores.
+- **humano** (por defecto): vista limpia, sin animaciones ni jerga; en `/perfil` se muestra como dashboard para reclutadores.
+- **terminal**: la experiencia para desarrolladores (transiciones, sonido, lluvia binaria, barra de comandos).
 
-Enlace directo para compartir: `https://carloshs92.github.io/perfil/?modo=humano`. Al imprimir o exportar a PDF siempre sale la vista humana.
+Quien entra por primera vez ve el modo humano; si alguien elige el terminal, se recuerda en su navegador. Para cambiar el modo por defecto edita `DEFAULT_MODE` en `lib/preferences.ts` (y `data-mode` en `app/layout.tsx`).
+
+Enlaces directos para compartir: `https://carloshs92.github.io/?modo=terminal` o `?modo=humano`. Al imprimir o exportar a PDF siempre sale la vista humana.
 
 ### Cómo está organizado
 
