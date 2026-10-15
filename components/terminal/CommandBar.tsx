@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { pathLabel, useNavigate } from "@/components/providers/PageTransitions";
 import { usePreferences } from "@/components/providers/Preferences";
 import { triggerRain } from "@/components/effects/BinaryRain";
-import { profile } from "@/data/profile";
+import { featuredSkills, profile } from "@/data/profile";
 import { primaryLink, projects } from "@/data/projects";
 import { alternatePath, href, tr, type Locale, type RouteKey } from "@/lib/i18n";
+import { companyCount, yearsOfExperience } from "@/lib/profile";
 import { useLocale } from "@/lib/useLocale";
 
 export type CommandBarPost = { slug: string; title: string; date: string };
@@ -49,7 +50,12 @@ const COPY = {
       { text: "  lang [es|en]           cambia el idioma" },
       { text: "  rain                   lluvia binaria ahora mismo" },
       { text: "  human                  modo humano: vista limpia sin animaciones" },
-      { text: "  whoami | date | github | linkedin | clear" },
+      { text: "  play sol-firme         juega Sol Firme, mi juego sobre el BCRP" },
+      { text: "  skills                 mi stack principal en barras" },
+      { text: "  cv [--pdf]             resumen del perfil; --pdf lo exporta" },
+      { text: "  hire                   trabajemos juntos" },
+      { text: "  ask <pregunta>         pregúntale a mi CV (muy pronto)" },
+      { text: "  whoami | date | history | github | linkedin | clear" },
       { text: "  tip: TAB autocompleta, ↑/↓ historial, ESC cierra", tone: "muted" },
     ] as Line[],
     sections: ["perfil", "blog", "proyectos", "trabajemos-juntos"],
@@ -70,6 +76,14 @@ const COPY = {
     exit: "No hay salida. Solo más código. :)",
     lang: (l: string) => `idioma → ${l}`,
     unknown: (name: string) => `${name}: comando no encontrado. Escribe 'help'.`,
+    play: ["☀  Sol Firme · presides el BCRP: inflación entre 1% y 3% sin apagar el país.", "abriendo el juego en una pestaña nueva ..."],
+    playUsage: "uso: play sol-firme",
+    cv: (years: number, companies: number) => `${years}+ años · ${companies} empresas · más en 'cd perfil' o 'cv --pdf'`,
+    printing: "preparando el PDF del perfil ...",
+    ask: ["ask: el chatbot está en construcción. 🛠", "mientras tanto: 'cd perfil' o escríbeme con 'hire'."],
+    emptyHistory: "historial vacío",
+    coffee: "☕ sirviendo café ... listo. Ahora sí, a programar.",
+    hello: "¡Hola! 👋 Escribe 'help' para ver qué puedes hacer aquí.",
     placeholder: "escribe 'help' o presiona /",
     label: "Terminal de comandos",
   },
@@ -86,7 +100,12 @@ const COPY = {
       { text: "  lang [es|en]           switch language" },
       { text: "  rain                   binary rain right now" },
       { text: "  human                  human mode: clean view, no animations" },
-      { text: "  whoami | date | github | linkedin | clear" },
+      { text: "  play sol-firme         play Sol Firme, my central bank game" },
+      { text: "  skills                 my core stack as bars" },
+      { text: "  cv [--pdf]             profile summary; --pdf exports it" },
+      { text: "  hire                   work with me" },
+      { text: "  ask <question>         ask my résumé (coming soon)" },
+      { text: "  whoami | date | history | github | linkedin | clear" },
       { text: "  tip: TAB completes, ↑/↓ history, ESC closes", tone: "muted" },
     ] as Line[],
     sections: ["profile", "blog", "projects", "work-with-me"],
@@ -107,6 +126,14 @@ const COPY = {
     exit: "There is no exit. Only more code. :)",
     lang: (l: string) => `language → ${l}`,
     unknown: (name: string) => `${name}: command not found. Type 'help'.`,
+    play: ["☀  Sol Firme · you chair Peru's central bank: keep inflation at 1–3% without stalling the country.", "opening the game in a new tab ..."],
+    playUsage: "usage: play sol-firme",
+    cv: (years: number, companies: number) => `${years}+ years · ${companies} companies · more with 'cd profile' or 'cv --pdf'`,
+    printing: "preparing the profile PDF ...",
+    ask: ["ask: the chatbot is under construction. 🛠", "meanwhile: 'cd profile' or reach me with 'hire'."],
+    emptyHistory: "history is empty",
+    coffee: "☕ brewing coffee ... done. Now, back to code.",
+    hello: "Hi! 👋 Type 'help' to see what you can do here.",
     placeholder: "type 'help' or press /",
     label: "Command terminal",
   },
@@ -246,6 +273,58 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
         print([]);
         return navigate(alternatePath(pathname, next));
       }
+      case "play":
+      case "jugar": {
+        const game = projects.find((p) => p.slug === "sol-firme");
+        if (arg && !["sol-firme", "solfirme", "sol"].includes(arg.toLowerCase())) return print([{ text: t.playUsage, tone: "muted" }]);
+        const url = game && primaryLink(game);
+        if (!url) return print([{ text: t.noLink("sol-firme"), tone: "danger" }]);
+        window.open(url, "_blank", "noopener");
+        return print([{ text: t.play[0], tone: "accent" }, { text: t.play[1], tone: "muted" }]);
+      }
+      case "skills":
+        return print(
+          [...featuredSkills].sort((a, b) => b.level - a.level).map((s) => {
+            const name = tr(s.name, locale).padEnd(14, " ");
+            const bar = "█".repeat(Math.round(s.level / 5)).padEnd(20, "░");
+            return { text: `${name} ${bar} ${s.level}%` };
+          })
+        );
+      case "cv":
+      case "resume": {
+        if (arg === "--pdf") {
+          print([{ text: t.printing, tone: "accent" }]);
+          setTimeout(() => window.print(), 300);
+          return;
+        }
+        return print([
+          { text: profile.name, tone: "accent" },
+          { text: tr(profile.role, locale) },
+          { text: t.cv(yearsOfExperience(), companyCount()), tone: "muted" },
+        ]);
+      }
+      case "hire":
+      case "contact":
+      case "contacto":
+        print([]);
+        return navigate(href("work", locale));
+      case "ask":
+      case "pregunta":
+        return print([{ text: t.ask[0], tone: "accent" }, { text: t.ask[1], tone: "muted" }]);
+      case "history":
+        return print(
+          history.current.length > 1
+            ? history.current.slice(1).reverse().map((c, i) => ({ text: `${String(i + 1).padStart(4, " ")}  ${c}` }))
+            : [{ text: t.emptyHistory, tone: "muted" }]
+        );
+      case "coffee":
+      case "cafe":
+      case "café":
+        return print([{ text: t.coffee, tone: "accent" }]);
+      case "hello":
+      case "hola":
+      case "hi":
+        return print([{ text: t.hello, tone: "accent" }]);
       case "pwd":
         return print([{ text: `/home/carlos${pathname.replace(/\/+$/, "")}` }]);
       default:
@@ -258,7 +337,7 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
     const partial = rest.join(" ");
     let options: string[] = [];
     if (rest.length === 0) {
-      options = ["help", "ls", "cd", "open", "cat", "theme", "sound", "lang", "rain", "human", "whoami", "clear", "github", "linkedin"];
+      options = ["help", "ls", "cd", "open", "cat", "play", "skills", "cv", "hire", "ask", "history", "theme", "sound", "lang", "rain", "human", "whoami", "clear", "github", "linkedin"];
       const hits = options.filter((o) => o.startsWith(name));
       if (hits.length === 1) setValue(`${hits[0]} `);
       else if (hits.length) print([{ text: hits.join("  "), tone: "muted" }]);
@@ -268,6 +347,8 @@ export default function CommandBar({ posts }: { posts: CommandBarPost[] }) {
     if (name === "open") options = projects.map((p) => p.slug);
     if (name === "ls") options = t.sections.slice(1, 3);
     if (name === "lang") options = ["es", "en"];
+    if (name === "play") options = ["sol-firme"];
+    if (name === "cv") options = ["--pdf"];
     if (name === "theme") options = ["dark", "light"];
     if (name === "sound") options = ["on", "off"];
     const hits = options.filter((o) => o.startsWith(partial));
