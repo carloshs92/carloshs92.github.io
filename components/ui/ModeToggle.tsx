@@ -1,25 +1,46 @@
 "use client";
 
 import { usePreferences } from "@/components/providers/Preferences";
+import { useLocale } from "@/lib/useLocale";
+
+const COPY = {
+  es: {
+    recruiter: "¿Eres reclutador?",
+    pitch: "Mira este perfil como dashboard, sin animaciones.",
+    toHuman: "modo humano",
+    toTerminal: "modo terminal",
+    humanTitle: "Vista limpia, sin animaciones",
+    terminalTitle: "Ver la versión para desarrolladores",
+  },
+  en: {
+    recruiter: "Recruiter?",
+    pitch: "See this profile as a dashboard, no animations.",
+    toHuman: "human mode",
+    toTerminal: "terminal mode",
+    humanTitle: "Clean view, no animations",
+    terminalTitle: "See the developer version",
+  },
+};
 
 type Props = { variant?: "compact" | "banner" };
 
 /** Alterna entre modo terminal y modo humano. */
 export default function ModeToggle({ variant = "compact" }: Props) {
   const { mode, setMode } = usePreferences();
+  const t = COPY[useLocale()];
   const toHuman = mode === "terminal";
 
   if (variant === "banner") {
     return (
       <div className="flex flex-wrap items-center gap-3 rounded border border-accent-2/50 bg-bg-soft px-4 py-3 text-sm print:hidden" data-piece>
-        <span className="text-accent-2">¿Eres reclutador?</span>
-        <span className="text-muted">Mira este perfil como dashboard, sin animaciones.</span>
+        <span className="text-accent-2">{t.recruiter}</span>
+        <span className="text-muted">{t.pitch}</span>
         <button
           type="button"
           onClick={() => setMode("human")}
           className="ml-auto rounded border border-accent-2 px-3 py-1 font-bold text-accent-2 hover:bg-accent-2 hover:text-bg"
         >
-          modo humano →
+          {t.toHuman} →
         </button>
       </div>
     );
@@ -31,9 +52,9 @@ export default function ModeToggle({ variant = "compact" }: Props) {
       onClick={() => setMode(toHuman ? "human" : "terminal")}
       aria-pressed={!toHuman}
       className="rounded border border-line px-2 py-1 text-muted hover:border-accent hover:text-accent"
-      title={toHuman ? "Vista limpia, sin animaciones" : "Ver la versión para desarrolladores"}
+      title={toHuman ? t.humanTitle : t.terminalTitle}
     >
-      {toHuman ? "◉ modo humano" : "›_ modo terminal"}
+      {toHuman ? `◉ ${t.toHuman}` : `›_ ${t.toTerminal}`}
     </button>
   );
 }

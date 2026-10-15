@@ -1,12 +1,18 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/posts";
+import { ROUTES, SITE, type RouteKey } from "@/lib/i18n";
 
 export const dynamic = "force-static";
 
-const SITE = "https://carloshs92.github.io";
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/perfil/", "/blog/", "/proyectos/", "/design-system/"].map((p) => ({ url: `${SITE}${p || "/"}` }));
+  // cada página traducida aparece en ambos idiomas, enlazadas entre sí con hreflang
+  const translated = (Object.keys(ROUTES) as RouteKey[]).flatMap((key) => {
+    const languages = { es: `${SITE}${ROUTES[key].es}`, en: `${SITE}${ROUTES[key].en}` };
+    return [
+      { url: languages.es, alternates: { languages } },
+      { url: languages.en, alternates: { languages } },
+    ];
+  });
   const posts = getAllPosts().map((p) => ({ url: `${SITE}/blog/${p.slug}/`, lastModified: p.date }));
-  return [...pages, ...posts];
+  return [...translated, { url: `${SITE}/design-system/` }, ...posts];
 }

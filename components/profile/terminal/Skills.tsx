@@ -2,6 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Skill, SkillGroup } from "@/data/profile";
+import { tr } from "@/lib/i18n";
+import { useLocale } from "@/lib/useLocale";
+
+const COPY = {
+  es: { level: "nivel", expert: "experto", advanced: "avanzado", intermediate: "intermedio", learning: "en aprendizaje", procs: "procesos" },
+  en: { level: "level", expert: "expert", advanced: "advanced", intermediate: "intermediate", learning: "learning", procs: "processes" },
+};
 
 function useInView<T extends Element>() {
   const ref = useRef<T>(null);
@@ -37,6 +44,9 @@ const tier = (level: number) => (level >= 90 ? "bg-accent" : level >= 75 ? "bg-a
 
 /** Gauge grande estilo htop para las habilidades principales. */
 export function FeaturedSkill({ skill, index }: { skill: Skill; index: number }) {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const name = tr(skill.name, locale);
   const [ref, seen] = useInView<HTMLDivElement>();
   const n = useCount(skill.level, seen);
   const blocks = 24;
@@ -46,7 +56,7 @@ export function FeaturedSkill({ skill, index }: { skill: Skill; index: number })
       <div className="flex items-baseline justify-between">
         <span className="font-bold text-fg">
           <span className="text-dim">{String(index + 1).padStart(2, "0")} </span>
-          {skill.name}
+          {name}
         </span>
         <span className="glow text-2xl font-extrabold tabular-nums text-accent">{n}%</span>
       </div>
@@ -59,19 +69,20 @@ export function FeaturedSkill({ skill, index }: { skill: Skill; index: number })
           />
         ))}
       </div>
-      <div className="mt-2 text-xs text-muted" role="meter" aria-valuenow={skill.level} aria-valuemin={0} aria-valuemax={100} aria-label={skill.name}>
-        [{"|".repeat(Math.round(filled * 1.2)).padEnd(29, " ")}] nivel {skill.level >= 90 ? "experto" : "avanzado"}
+      <div className="mt-2 text-xs text-muted" role="meter" aria-valuenow={skill.level} aria-valuemin={0} aria-valuemax={100} aria-label={name}>
+        [{"|".repeat(Math.round(filled * 1.2)).padEnd(29, " ")}] {t.level} {skill.level >= 90 ? t.expert : t.advanced}
       </div>
     </div>
   );
 }
 
 function SkillRow({ skill }: { skill: Skill }) {
+  const locale = useLocale();
   const [ref, seen] = useInView<HTMLLIElement>();
   const n = useCount(skill.level, seen, 900);
   return (
     <li ref={ref} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[16rem_minmax(0,1fr)_3rem]">
-      <span className="truncate text-sm text-fg">{skill.name}</span>
+      <span className="truncate text-sm text-fg">{tr(skill.name, locale)}</span>
       <span className="text-right text-sm tabular-nums text-muted sm:order-last">{n}%</span>
       <span className="col-span-2 h-2 overflow-hidden rounded-full bg-line sm:col-span-1">
         {seen && <span className={`meter-fill block h-full rounded-full ${tier(skill.level)}`} style={{ width: `${skill.level}%` }} />}
@@ -81,6 +92,7 @@ function SkillRow({ skill }: { skill: Skill }) {
 }
 
 export function SkillTabs({ groups }: { groups: SkillGroup[] }) {
+  const t = COPY[useLocale()];
   const [active, setActive] = useState(groups[0].id);
   const group = groups.find((g) => g.id === active)!;
   const avg = Math.round(group.skills.reduce((s, k) => s + k.level, 0) / group.skills.length);
@@ -100,19 +112,19 @@ export function SkillTabs({ groups }: { groups: SkillGroup[] }) {
           </button>
         ))}
         <span className="ml-auto hidden sm:inline">
-          avg <span className="text-accent">{avg}%</span> · {group.skills.length} procesos
+          avg <span className="text-accent">{avg}%</span> · {group.skills.length} {t.procs}
         </span>
       </div>
       <ul key={active} className="space-y-3 p-5">
         {group.skills.map((s) => (
-          <SkillRow key={s.name} skill={s} />
+          <SkillRow key={tr(s.name, "es")} skill={s} />
         ))}
       </ul>
       <div className="flex flex-wrap gap-4 border-t border-line px-5 py-2 text-xs text-muted">
-        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent" />experto 90+</span>
-        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent-3" />avanzado 75+</span>
-        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent-2" />intermedio 60+</span>
-        <span><i className="mr-1 inline-block size-2 rounded-full bg-muted" />en aprendizaje</span>
+        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent" />{t.expert} 90+</span>
+        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent-3" />{t.advanced} 75+</span>
+        <span><i className="mr-1 inline-block size-2 rounded-full bg-accent-2" />{t.intermediate} 60+</span>
+        <span><i className="mr-1 inline-block size-2 rounded-full bg-muted" />{t.learning}</span>
       </div>
     </div>
   );

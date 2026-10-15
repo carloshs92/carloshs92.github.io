@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://carloshs92.github.io"),
   title: { default: `${profile.name} · Ingeniero de Sistemas`, template: `%s · ${profile.name}` },
   description: "Ingeniero de Sistemas, Front End Lead e IA aplicada. Perfil, blog y proyectos.",
-  openGraph: { type: "website", locale: "es_PE", siteName: profile.name },
+  openGraph: { type: "website", locale: "es_PE", alternateLocale: "en_US", siteName: profile.name },
   alternates: { types: { "application/rss+xml": "/feed.xml" } },
 };
 
