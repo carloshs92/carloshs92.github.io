@@ -18,6 +18,7 @@ npm run build  # sitio estático en out/
 | Perfil: indicadores, habilidades, certificaciones, enlace a LinkedIn | `data/profile.ts` |
 | Proyectos / aprendizajes (los 3 primeros son los destacados del inicio) | `data/projects.ts` |
 | Posts del blog | `content/blog/*.md` |
+| Trabajemos juntos: servicios, pasos y canales de contacto (correo, agenda) | `data/services.ts` |
 | Colores (terminal y humano, dark/light) | `app/globals.css` |
 | Componentes del design system | `components/ds/` (guía en `DESIGN_SYSTEM.md`, vista en `/design-system/`) |
 

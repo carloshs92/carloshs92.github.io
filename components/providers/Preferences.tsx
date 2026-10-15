@@ -33,6 +33,25 @@ function withViewTransition(apply: () => void, animate?: () => void) {
   if (animate) vt.ready.then(animate);
 }
 
+/**
+ * Cambio de modo sin golpe: la vista anterior se desvanece con un leve desenfoque
+ * y la nueva entra suave. Hacia el terminal la nueva vista "se enciende" de arriba
+ * hacia abajo como una pantalla; hacia el modo humano es un fundido limpio.
+ */
+function animateModeChange(next: ViewMode) {
+  const root = document.documentElement;
+  const easing = "cubic-bezier(.4,0,.2,1)";
+  root.animate(
+    { opacity: [1, 0], filter: ["blur(0px)", "blur(6px)"], transform: ["scale(1)", "scale(.985)"] },
+    { duration: 380, easing, fill: "both", pseudoElement: "::view-transition-old(root)" }
+  );
+  const enter =
+    next === "terminal"
+      ? { opacity: [0, 1], clipPath: ["inset(0 0 100% 0)", "inset(0 0 0% 0)"], filter: ["brightness(1.6)", "brightness(1)"] }
+      : { opacity: [0, 1], filter: ["blur(6px)", "blur(0px)"], transform: ["translateY(8px)", "translateY(0)"] };
+  root.animate(enter, { duration: next === "terminal" ? 560 : 460, delay: 80, easing, fill: "both", pseudoElement: "::view-transition-new(root)" });
+}
+
 export default function PreferencesProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("dark");
   const [mode, setModeState] = useState<ViewMode>(DEFAULT_MODE);
@@ -67,9 +86,25 @@ export default function PreferencesProvider({ children }: { children: React.Reac
   }, []);
 
   const setMode = useCallback((next: ViewMode) => {
-    document.documentElement.dataset.mode = next;
-    setModeState(next);
-    persist("mode", next);
+    const root = document.documentElement;
+    if (root.dataset.mode === next) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!(document as ViewTransitionDoc).startViewTransition && !reduced) {
+      // sin View Transitions: al menos un fundido del contenido
+      root.dataset.mode = next;
+      setModeState(next);
+      persist("mode", next);
+      document.querySelector("main")?.animate({ opacity: [0, 1] }, { duration: 320, easing: "ease-out" });
+      return;
+    }
+    withViewTransition(
+      () => {
+        root.dataset.mode = next;
+        setModeState(next);
+        persist("mode", next);
+      },
+      () => animateModeChange(next)
+    );
   }, []);
 
   const setMuted = useCallback((next: boolean) => {

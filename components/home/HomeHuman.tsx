@@ -14,6 +14,7 @@ const COPY = {
       `Actualmente ${role} en ${company}, con más de ${years} años construyendo productos web en ${companies} empresas. Hoy me enfoco en ${stack} e IA aplicada.`,
     profile: "Ver perfil profesional",
     projects: "Proyectos",
+    work: "Trabajemos juntos",
     latest: "Últimos artículos",
     postsNote: "",
     featured: "Proyectos destacados",
@@ -24,6 +25,7 @@ const COPY = {
       `Currently ${role} at ${company}, with over ${years} years building web products across ${companies} companies. Today I focus on ${stack} and applied AI.`,
     profile: "View professional profile",
     projects: "Projects",
+    work: "Work with me",
     latest: "Latest articles",
     postsNote: "Articles are written in Spanish.",
     featured: "Featured projects",
@@ -54,6 +56,9 @@ export default function HomeHuman({ locale = "es" }: { locale?: Locale }) {
           </Link>
           <Link href={href("blog", locale)} className={buttonClass({ size: "md" })}>
             Blog
+          </Link>
+          <Link href={href("work", locale)} className={buttonClass({ size: "md" })}>
+            {t.work}
           </Link>
         </div>
       </section>
