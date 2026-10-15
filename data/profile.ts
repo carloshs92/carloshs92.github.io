@@ -1,16 +1,33 @@
 // Toda la información del CV vive aquí: edita este archivo para actualizar /perfil.
 // /perfil muestra indicadores, habilidades y certificaciones; la experiencia y la
 // educación completas se consultan en LinkedIn (profile.links.linkedin).
+// Los textos con { es, en } se muestran según el idioma de la página.
 
-export const profile = {
+import type { Text } from "@/lib/i18n";
+
+export const profile: {
+  name: string;
+  handle: string;
+  role: Text;
+  location: Text;
+  startYear: number;
+  summary: Text[];
+  links: { github: string; linkedin: string; medium: string };
+} = {
   name: "Carlos Huamani",
   handle: "carloshs92",
-  role: "Ingeniero de Sistemas · Front End Lead · IA aplicada",
-  location: "Lima, Perú",
+  role: { es: "Ingeniero de Sistemas · Front End Lead · IA aplicada", en: "Systems Engineer · Front End Lead · Applied AI" },
+  location: { es: "Lima, Perú", en: "Lima, Peru" },
   startYear: 2014,
   summary: [
-    "Ingeniero de Sistemas con más de una década construyendo productos web. Empecé como desarrollador front en Grupo El Comercio y desde entonces he liderado equipos y chapters frontend en e-commerce, salud, educación y finanzas.",
-    "Hoy combino liderazgo técnico en frontend (Next.js, React, TypeScript, Tailwind) con el diseño de experiencias potenciadas por IA: agentes, RAG, chatbots y flujos de desarrollo con Claude.",
+    {
+      es: "Ingeniero de Sistemas con más de una década construyendo productos web. Empecé como desarrollador front en Grupo El Comercio y desde entonces he liderado equipos y chapters frontend en e-commerce, salud, educación y finanzas.",
+      en: "Systems Engineer with over a decade building web products. I started as a front-end developer at Grupo El Comercio and have since led frontend teams and chapters in e-commerce, healthcare, education and finance.",
+    },
+    {
+      es: "Hoy combino liderazgo técnico en frontend (Next.js, React, TypeScript, Tailwind) con el diseño de experiencias potenciadas por IA: agentes, RAG, chatbots y flujos de desarrollo con Claude.",
+      en: "Today I combine frontend technical leadership (Next.js, React, TypeScript, Tailwind) with designing AI-powered experiences: agents, RAG, chatbots and development workflows with Claude.",
+    },
   ],
   links: {
     github: "https://github.com/carloshs92",
@@ -19,9 +36,9 @@ export const profile = {
   },
 };
 
-export type Skill = { name: string; level: number };
+export type Skill = { name: Text; level: number };
 /** `label` se usa en modo terminal, `title` en modo humano. */
-export type SkillGroup = { id: string; label: string; title: string; skills: Skill[] };
+export type SkillGroup = { id: string; label: string; title: Text; skills: Skill[] };
 
 // Las 4 habilidades principales (se muestran como gauges grandes)
 export const featuredSkills: Skill[] = [
@@ -39,10 +56,10 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       { name: "TypeScript", level: 92 },
       { name: "JavaScript (ES2024+)", level: 95 },
-      { name: "HTML / CSS moderno", level: 94 },
+      { name: { es: "HTML / CSS moderno", en: "Modern HTML / CSS" }, level: 94 },
       { name: "Design Systems", level: 88 },
       { name: "Web Performance / Core Web Vitals", level: 86 },
-      { name: "Estado (Redux, Zustand, React Query)", level: 85 },
+      { name: { es: "Estado (Redux, Zustand, React Query)", en: "State (Redux, Zustand, React Query)" }, level: 85 },
       { name: "GraphQL", level: 76 },
       { name: "PWA / Service Workers", level: 78 },
       { name: "Astro", level: 72 },
@@ -52,36 +69,36 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "ia",
     label: "ia",
-    title: "Inteligencia artificial",
+    title: { es: "Inteligencia artificial", en: "Artificial intelligence" },
     skills: [
-      { name: "Claude Code / agentes de código", level: 94 },
+      { name: { es: "Claude Code / agentes de código", en: "Claude Code / coding agents" }, level: 94 },
       { name: "Claude API / Agent SDK", level: 86 },
       { name: "Prompt & Context Engineering", level: 88 },
       { name: "MCP (Model Context Protocol)", level: 82 },
       { name: "Vercel AI SDK / streaming UI", level: 82 },
-      { name: "RAG + bases vectoriales (Pinecone)", level: 78 },
+      { name: { es: "RAG + bases vectoriales (Pinecone)", en: "RAG + vector databases (Pinecone)" }, level: 78 },
       { name: "LangChain", level: 76 },
       { name: "OpenAI API / fine-tuning", level: 74 },
-      { name: "Evals y observabilidad de LLMs", level: 66 },
-      { name: "Python para IA", level: 60 },
+      { name: { es: "Evals y observabilidad de LLMs", en: "LLM evals and observability" }, level: 66 },
+      { name: { es: "Python para IA", en: "Python for AI" }, level: 60 },
     ],
   },
   {
     id: "calidad",
     label: "testing",
-    title: "Testing y calidad",
+    title: { es: "Testing y calidad", en: "Testing and quality" },
     skills: [
       { name: "Jest / Vitest", level: 88 },
       { name: "React Testing Library", level: 88 },
       { name: "Playwright / Cypress", level: 72 },
       { name: "Mocha", level: 72 },
-      { name: "Accesibilidad (WCAG)", level: 78 },
+      { name: { es: "Accesibilidad (WCAG)", en: "Accessibility (WCAG)" }, level: 78 },
     ],
   },
   {
     id: "ops",
     label: "tooling",
-    title: "Herramientas y DevOps",
+    title: { es: "Herramientas y DevOps", en: "Tooling and DevOps" },
     skills: [
       { name: "Git / GitHub", level: 92 },
       { name: "Node.js", level: 80 },
@@ -93,13 +110,13 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-export const softSkills = [
-  "Liderazgo técnico",
-  "Lineamientos frontend",
+export const softSkills: Text[] = [
+  { es: "Liderazgo técnico", en: "Technical leadership" },
+  { es: "Lineamientos frontend", en: "Frontend guidelines" },
   "Code review",
-  "Mentoría",
-  "Innovación",
-  "Pensamiento creativo",
+  { es: "Mentoría", en: "Mentoring" },
+  { es: "Innovación", en: "Innovation" },
+  { es: "Pensamiento creativo", en: "Creative thinking" },
 ];
 
 export type Job = {
@@ -180,16 +197,16 @@ export const experience: Job[] = [
   },
 ];
 
-export const certifications = [
+export const certifications: { name: string; issuer: string; date: Text; credentialId?: string }[] = [
   {
     name: "Claude Code in Action",
     issuer: "Anthropic",
-    date: "may. 2026",
+    date: { es: "may. 2026", en: "May 2026" },
     credentialId: "3tgea4a2aypc",
   },
   {
     name: "Creative Thinking: Techniques and Tools for Success",
     issuer: "Imperial College London",
-    date: "jul. 2020",
+    date: { es: "jul. 2020", en: "Jul 2020" },
   },
 ];

@@ -1,17 +1,25 @@
+import type { Locale } from "@/lib/i18n";
+
 export type BarItem = { name: string; level: number };
 
-export function levelLabel(level: number) {
-  if (level >= 90) return "Experto";
-  if (level >= 75) return "Avanzado";
-  if (level >= 60) return "Intermedio";
-  return "En aprendizaje";
+const LEVELS = {
+  es: ["Experto", "Avanzado", "Intermedio", "En aprendizaje"],
+  en: ["Expert", "Advanced", "Intermediate", "Learning"],
+};
+
+export function levelLabel(level: number, locale: Locale = "es") {
+  const [expert, advanced, intermediate, learning] = LEVELS[locale];
+  if (level >= 90) return expert;
+  if (level >= 75) return advanced;
+  if (level >= 60) return intermediate;
+  return learning;
 }
 
 /**
  * Barras horizontales de una sola serie (0–100): etiqueta a la izquierda,
  * valor al final de la barra y tooltip al pasar el mouse.
  */
-export default function BarList({ items, max = 100 }: { items: BarItem[]; max?: number }) {
+export default function BarList({ items, max = 100, locale = "es" }: { items: BarItem[]; max?: number; locale?: Locale }) {
   return (
     <ul className="space-y-3">
       {items.map((item) => {
@@ -29,7 +37,7 @@ export default function BarList({ items, max = 100 }: { items: BarItem[]; max?: 
               role="tooltip"
               className="pointer-events-none absolute -top-9 left-1/3 sm:left-52 z-10 hidden whitespace-nowrap rounded-md border border-line bg-panel px-2.5 py-1 text-xs text-fg shadow-md group-hover:block print:hidden"
             >
-              {item.name}: <b>{item.level}</b>/100 · {levelLabel(item.level)}
+              {item.name}: <b>{item.level}</b>/100 · {levelLabel(item.level, locale)}
             </span>
           </li>
         );

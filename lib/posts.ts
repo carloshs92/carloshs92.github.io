@@ -8,6 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeStringify from "rehype-stringify";
+import { dateLocale, type Locale } from "@/lib/i18n";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "blog");
 
@@ -64,8 +65,8 @@ export async function getPost(slug: string): Promise<Post> {
   return { ...meta, html: String(file) };
 }
 
-export function formatDate(iso: string) {
-  return new Date(`${iso}T12:00:00`).toLocaleDateString("es-PE", {
+export function formatDate(iso: string, locale: Locale = "es") {
+  return new Date(`${iso}T12:00:00`).toLocaleDateString(dateLocale[locale], {
     year: "numeric",
     month: "short",
     day: "2-digit",

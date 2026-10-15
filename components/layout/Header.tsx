@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { usePreferences } from "@/components/providers/Preferences";
@@ -7,13 +8,28 @@ import { pathLabel } from "@/components/providers/PageTransitions";
 import CommandBar, { type CommandBarPost } from "@/components/terminal/CommandBar";
 import ModeToggle from "@/components/ui/ModeToggle";
 import { profile } from "@/data/profile";
+import { alternatePath, href, type Locale } from "@/lib/i18n";
+import { useLocale } from "@/lib/useLocale";
 
-const NAV = [
-  { href: "/", label: "inicio", human: "Inicio" },
-  { href: "/perfil/", label: "perfil", human: "Perfil" },
-  { href: "/blog/", label: "blog", human: "Blog" },
-  { href: "/proyectos/", label: "proyectos", human: "Proyectos" },
-];
+const NAV: Record<Locale, { href: string; label: string; human: string }[]> = {
+  es: [
+    { href: href("home", "es"), label: "inicio", human: "Inicio" },
+    { href: href("profile", "es"), label: "perfil", human: "Perfil" },
+    { href: href("blog", "es"), label: "blog", human: "Blog" },
+    { href: href("projects", "es"), label: "proyectos", human: "Proyectos" },
+  ],
+  en: [
+    { href: href("home", "en"), label: "home", human: "Home" },
+    { href: href("profile", "en"), label: "profile", human: "Profile" },
+    { href: href("blog", "en"), label: "blog", human: "Blog" },
+    { href: href("projects", "en"), label: "projects", human: "Projects" },
+  ],
+};
+
+const COPY = {
+  es: { unmute: "Activar sonido", mute: "Silenciar", theme: "Cambiar tema", nav: "Principal", other: "en" as Locale, switchLabel: "Read in English" },
+  en: { unmute: "Turn sound on", mute: "Mute", theme: "Toggle theme", nav: "Main", other: "es" as Locale, switchLabel: "Leer en español" },
+};
 
 const chip = "rounded border border-line px-2 py-1 text-muted hover:border-accent hover:text-accent";
 
@@ -21,6 +37,14 @@ export default function Header({ posts }: { posts: CommandBarPost[] }) {
   const pathname = usePathname();
   const { theme, setTheme, muted, setMuted } = usePreferences();
   const current = pathname.replace(/\/+$/, "") || "/";
+  const locale = useLocale();
+  const t = COPY[locale];
+  const home = href("home", locale);
+
+  // al navegar entre idiomas sin recargar, mantiene <html lang> al día
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur print:hidden">
@@ -34,17 +58,20 @@ export default function Header({ posts }: { posts: CommandBarPost[] }) {
         <span className="hidden truncate text-muted sm:inline human:hidden">
           carlos@huamani: <span className="text-accent">{pathLabel(pathname)}</span>
         </span>
-        <Link href="/" className="hidden text-sm font-semibold text-fg human:inline">
+        <Link href={home} className="hidden text-sm font-semibold text-fg human:inline">
           {profile.name}
         </Link>
 
         <div className="ml-auto flex items-center gap-1">
+          <Link href={alternatePath(pathname, t.other)} hrefLang={t.other} lang={t.other} className={chip} aria-label={t.switchLabel} title={t.switchLabel}>
+            {t.other.toUpperCase()}
+          </Link>
           <ModeToggle />
           <button
             type="button"
             onClick={() => setMuted(!muted)}
             className={`${chip} human:hidden`}
-            aria-label={muted ? "Activar sonido" : "Silenciar"}
+            aria-label={muted ? t.unmute : t.mute}
           >
             {muted ? "♪ off" : "♪ on"}
           </button>
@@ -52,7 +79,7 @@ export default function Header({ posts }: { posts: CommandBarPost[] }) {
             type="button"
             onClick={(e) => setTheme(theme === "dark" ? "light" : "dark", { x: e.clientX, y: e.clientY })}
             className={chip}
-            aria-label="Cambiar tema"
+            aria-label={t.theme}
           >
             <span className="dark:hidden">☾ dark</span>
             <span className="hidden dark:inline">☀ light</span>
@@ -60,9 +87,10 @@ export default function Header({ posts }: { posts: CommandBarPost[] }) {
         </div>
       </div>
 
-      <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-4 text-sm" aria-label="Principal">
-        {NAV.map((item) => {
-          const active = item.href === "/" ? current === "/" : current.startsWith(item.href.replace(/\/$/, ""));
+      <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-4 text-sm" aria-label={t.nav}>
+        {NAV[locale].map((item) => {
+          const target = item.href.replace(/\/+$/, "") || "/";
+          const active = item.href === home ? current === target : current.startsWith(target);
           return (
             <Link
               key={item.href}

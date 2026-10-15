@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Say from "@/components/ui/Say";
+import { useLocale } from "@/lib/useLocale";
 
 /** Chips de filtro estilo flags de CLI: `--tag=ia` */
 export default function FilterList<T>({
@@ -20,6 +21,7 @@ export default function FilterList<T>({
   labelFor?: (tag: string) => string;
   className?: string;
 }) {
+  const en = useLocale() === "en";
   const [active, setActive] = useState<string | null>(null);
   const tags = Array.from(new Set(items.flatMap(getTags))).sort();
   const visible = active ? items.filter((i) => getTags(i).includes(active)) : items;
@@ -32,7 +34,7 @@ export default function FilterList<T>({
           onClick={() => setActive(null)}
           className={`rounded border px-2.5 py-1 human:rounded-full human:px-3 ${active === null ? "border-accent bg-accent text-bg" : "border-line text-muted hover:text-accent"}`}
         >
-          <Say terminal="--all" human="Todos" />
+          <Say terminal="--all" human={en ? "All" : "Todos"} />
         </button>
         {tags.map((t) => (
           <button
@@ -46,7 +48,8 @@ export default function FilterList<T>({
         ))}
       </div>
       <p className="text-xs text-dim">
-        {visible.length} resultado{visible.length === 1 ? "" : "s"}
+        {visible.length} {en ? "result" : "resultado"}
+        {visible.length === 1 ? "" : "s"}
       </p>
       <div className={className}>{visible.map(render)}</div>
     </>

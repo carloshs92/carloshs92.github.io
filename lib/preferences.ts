@@ -50,5 +50,6 @@ export function motionEnabled() {
  * Script inline que corre antes de pintar: aplica tema y modo guardados
  * para que no haya parpadeo. Sin preferencia guardada se usa DEFAULT_MODE.
  * `?modo=terminal` o `?modo=humano` en la URL fuerzan un modo (útil para compartir).
+ * También fija <html lang="en"> en las páginas bajo /en/ (el layout raíz sale con "es").
  */
-export const bootScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('${STORAGE_KEYS.theme}');if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.dataset.theme=t;var m=localStorage.getItem('${STORAGE_KEYS.mode}');var q=new URLSearchParams(location.search).get('modo');if(q==='humano'||q==='human'){m='human'}else if(q==='terminal'){m='terminal'}d.dataset.mode=m==='terminal'||m==='human'?m:'${DEFAULT_MODE}'}catch(e){d.dataset.theme='dark';d.dataset.mode='${DEFAULT_MODE}'}})()`;
+export const bootScript = `(function(){var d=document.documentElement;if(/^\\/en(\\/|$)/.test(location.pathname))d.lang='en';try{var t=localStorage.getItem('${STORAGE_KEYS.theme}');if(!t){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.dataset.theme=t;var m=localStorage.getItem('${STORAGE_KEYS.mode}');var q=new URLSearchParams(location.search).get('modo');if(q==='humano'||q==='human'){m='human'}else if(q==='terminal'){m='terminal'}d.dataset.mode=m==='terminal'||m==='human'?m:'${DEFAULT_MODE}'}catch(e){d.dataset.theme='dark';d.dataset.mode='${DEFAULT_MODE}'}})()`;

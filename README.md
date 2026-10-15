@@ -21,6 +21,14 @@ npm run build  # sitio estático en out/
 | Colores (terminal y humano, dark/light) | `app/globals.css` |
 | Componentes del design system | `components/ds/` (guía en `DESIGN_SYSTEM.md`, vista en `/design-system/`) |
 
+## Idiomas
+
+El sitio está en español (rutas de siempre) y en inglés bajo `/en/` (`/en/profile/`, `/en/projects/`, `/en/blog/`). El botón `EN`/`ES` del header y el comando `lang` del terminal llevan a la misma página en el otro idioma.
+
+- Los textos de `data/` que cambian por idioma se escriben como `{ es: "…", en: "…" }`; un string simple vale para ambos (nombres propios, tecnologías).
+- Los textos de cada componente están en un objeto `COPY` con `es` y `en` al inicio del archivo.
+- Rutas, hreflang y helpers en `lib/i18n.ts`. Los posts del blog solo existen en español; `/en/blog/` los lista con ese aviso.
+
 Post nuevo: crea `content/blog/mi-post.md` con frontmatter `title`, `date`, `description`, `tags` (y `draft: true` para ocultarlo).
 
 ## Modos de vista
