@@ -3,7 +3,7 @@ import { profile } from "@/data/profile";
 
 export const dynamic = "force-static";
 
-const SITE = "https://carloshs92.github.io";
+const SITE = "https://carloshuamani.com";
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export function GET() {

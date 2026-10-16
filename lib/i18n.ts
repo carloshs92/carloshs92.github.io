@@ -4,7 +4,7 @@
 
 export type Locale = "es" | "en";
 export const LOCALES: Locale[] = ["es", "en"];
-export const SITE = "https://carloshs92.github.io";
+export const SITE = "https://carloshuamani.com";
 
 /** Texto traducible: un string sirve para ambos idiomas (nombres propios, tecnologías). */
 export type Text = string | { es: string; en: string };

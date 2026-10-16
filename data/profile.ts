@@ -32,7 +32,7 @@ export const profile: {
   links: {
     github: "https://github.com/carloshs92",
     linkedin: "https://www.linkedin.com/in/carloshs92",
-    medium: "https://carloshuamani.com",
+    medium: "https://carlos-huamani.medium.com",
   },
 };
 
