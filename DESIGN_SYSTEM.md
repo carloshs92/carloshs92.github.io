@@ -2,7 +2,7 @@
 
 Un solo sistema para las dos voces del sitio: **humano** (por defecto, limpio, para reclutadores) y **terminal** (para desarrolladores). Los mismos tokens y componentes sirven a ambos; cambian los valores de los tokens y algunos detalles de forma.
 
-Documentación viva: [`/design-system/`](https://carloshs92.github.io/design-system/). Todo lo que se ve ahí sale de los archivos de abajo.
+Documentación viva: [`/design-system/`](https://carloshuamani.com/design-system/). Todo lo que se ve ahí sale de los archivos de abajo.
 
 ## Principios
 

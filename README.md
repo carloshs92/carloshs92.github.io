@@ -1,4 +1,4 @@
-# carloshs92.github.io
+# carloshuamani.com
 
 Web personal de Carlos Huamani: perfil de ingeniero, blog en Markdown y proyectos, con estética de terminal.
 
@@ -41,7 +41,7 @@ El sitio tiene dos modos, que se eligen con el botón del header y se guardan en
 
 Quien entra por primera vez ve el modo humano; si alguien elige el terminal, se recuerda en su navegador. Para cambiar el modo por defecto edita `DEFAULT_MODE` en `lib/preferences.ts` (y `data-mode` en `app/layout.tsx`).
 
-Enlaces directos para compartir: `https://carloshs92.github.io/?modo=terminal` o `?modo=humano`. Al imprimir o exportar a PDF siempre sale la vista humana.
+Enlaces directos para compartir: `https://carloshuamani.com/?modo=terminal` o `?modo=humano`. Al imprimir o exportar a PDF siempre sale la vista humana.
 
 ### Cómo está organizado
 
