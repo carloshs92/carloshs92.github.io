@@ -10,15 +10,20 @@ import Footer from "@/components/layout/Footer";
 import { bootScript } from "@/lib/preferences";
 import { getAllPosts } from "@/lib/posts";
 import { profile } from "@/data/profile";
+import { SITE } from "@/lib/i18n";
+import { OG_IMAGE, siteSchema } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://carloshuamani.com"),
+  metadataBase: new URL(SITE),
   title: { default: `${profile.name} · Ingeniero de Sistemas`, template: `%s · ${profile.name}` },
   description: "Ingeniero de Sistemas, Front End Lead e IA aplicada. Perfil, blog y proyectos.",
-  openGraph: { type: "website", locale: "es_PE", alternateLocale: "en_US", siteName: profile.name },
+  openGraph: { type: "website", locale: "es_PE", alternateLocale: "en_US", siteName: profile.name, images: [OG_IMAGE] },
+  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
   alternates: { types: { "application/rss+xml": "/feed.xml" } },
 };
 
@@ -35,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" data-theme="dark" data-mode="human" className={`${mono.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        <JsonLd data={siteSchema()} />
       </head>
       <body>
         <PreferencesProvider>
@@ -48,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </PageTransitions>
         </PreferencesProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );

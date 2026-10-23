@@ -1,9 +1,9 @@
 import { getAllPosts } from "@/lib/posts";
 import { profile } from "@/data/profile";
+import { SITE } from "@/lib/i18n";
 
 export const dynamic = "force-static";
 
-const SITE = "https://carloshuamani.com";
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export function GET() {
