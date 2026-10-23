@@ -16,6 +16,8 @@ export type PostMeta = {
   slug: string;
   title: string;
   date: string;
+  /** Fecha de la última revisión importante (frontmatter `updated`), si la hay. */
+  updated?: string;
   description: string;
   tags: string[];
   readingMinutes: number;
@@ -27,10 +29,12 @@ function readPostFile(slug: string) {
   const raw = fs.readFileSync(path.join(POSTS_DIR, `${slug}.md`), "utf8");
   const { data, content } = matter(raw);
   const words = content.trim().split(/\s+/).length;
+  const day = (d: unknown) => (d instanceof Date ? d.toISOString().slice(0, 10) : d ? String(d) : undefined);
   const meta: PostMeta = {
     slug,
     title: data.title ?? slug,
-    date: data.date instanceof Date ? data.date.toISOString().slice(0, 10) : String(data.date ?? ""),
+    date: day(data.date) ?? "",
+    updated: day(data.updated),
     description: data.description ?? "",
     tags: data.tags ?? [],
     readingMinutes: Math.max(1, Math.round(words / 220)),
@@ -48,6 +52,9 @@ export function getAllPosts(): PostMeta[] {
     .map((p) => p.meta)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
+
+/** El Markdown original de un post, sin frontmatter (para llms-full.txt). */
+export const getPostMarkdown = (slug: string) => readPostFile(slug).content.trim();
 
 export async function getPost(slug: string): Promise<Post> {
   const { meta, content } = readPostFile(slug);

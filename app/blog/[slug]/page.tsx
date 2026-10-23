@@ -4,6 +4,9 @@ import Prompt from "@/components/terminal/Prompt";
 import Scramble from "@/components/terminal/Scramble";
 import { formatDate, getAllPosts, getPost } from "@/lib/posts";
 import Say from "@/components/ui/Say";
+import JsonLd from "@/components/seo/JsonLd";
+import { OG_IMAGE, postSchema } from "@/lib/seo";
+import { SITE } from "@/lib/i18n";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,7 +22,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
-    openGraph: { type: "article", title: post.title, description: post.description, publishedTime: post.date },
+    alternates: { canonical: `/blog/${slug}/` },
+    openGraph: {
+      type: "article",
+      url: `/blog/${slug}/`,
+      title: post.title,
+      description: post.description,
+      publishedTime: post.date,
+      modifiedTime: post.updated ?? post.date,
+      authors: [`${SITE}/`],
+      tags: post.tags,
+      images: [OG_IMAGE],
+    },
   };
 }
 
@@ -33,6 +47,7 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-3xl space-y-8">
+      <JsonLd data={postSchema(post)} />
       <header className="space-y-4">
         <Prompt cmd={`cat ${slug}.md`} path="~/blog" />
         <Scramble as="h1" text={post.title} duration={900} className="glow block text-2xl font-extrabold leading-tight text-accent sm:text-4xl" />

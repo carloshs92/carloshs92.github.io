@@ -30,7 +30,7 @@ El sitio está en español (rutas de siempre) y en inglés bajo `/en/` (`/en/pro
 - Los textos de cada componente están en un objeto `COPY` con `es` y `en` al inicio del archivo.
 - Rutas, hreflang y helpers en `lib/i18n.ts`. Los posts del blog solo existen en español; `/en/blog/` los lista con ese aviso.
 
-Post nuevo: crea `content/blog/mi-post.md` con frontmatter `title`, `date`, `description`, `tags` (y `draft: true` para ocultarlo).
+Post nuevo: crea `content/blog/mi-post.md` con frontmatter `title`, `date`, `description`, `tags` (opcional `updated` cuando lo revises a fondo, y `draft: true` para ocultarlo).
 
 ## Modos de vista
 
@@ -61,6 +61,17 @@ components/
 - **Solo un texto distinto:** `<Say terminal="git clone ↗" human="Repositorio" />`.
 - **Solo un estilo distinto:** variante de Tailwind `human:` (p. ej. `human:hidden`).
 - **Animaciones nuevas:** revisa `motionEnabled()` antes de animar.
+
+## SEO, agentes y analítica
+
+| Qué | Dónde |
+| --- | --- |
+| Datos estructurados (Person, ProfilePage, BlogPosting) | `lib/seo.ts`, salen de `data/profile.ts` |
+| robots.txt con bots de IA nombrados | `app/robots.ts` |
+| `llms.txt` y `llms-full.txt` para agentes | `lib/llms.ts` |
+| Imagen al compartir | `app/opengraph-image.tsx` |
+| GA4 | `components/analytics/GoogleAnalytics.tsx`; se activa con la variable `GA_ID` del repo |
+| Enlaces viejos de Medium (`/titulo-1a2b3c4d5e6f`) | redirigen a Medium desde `app/not-found.tsx` |
 
 ## Deploy
 

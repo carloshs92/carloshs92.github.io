@@ -3,7 +3,9 @@ import ProfileDashboard from "@/components/profile/human/ProfileDashboard";
 import ProfileTerminal from "@/components/profile/terminal/ProfileTerminal";
 import ModeView from "@/components/ui/ModeView";
 import { profile } from "@/data/profile";
-import { languageAlternates } from "@/lib/i18n";
+import { languageAlternates, ROUTES } from "@/lib/i18n";
+import JsonLd from "@/components/seo/JsonLd";
+import { profilePageSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Engineer profile",
@@ -12,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function EnProfilePage() {
-  return <ModeView terminal={<ProfileTerminal locale="en" />} human={<ProfileDashboard locale="en" />} />;
+  return (
+    <>
+      <JsonLd data={profilePageSchema(ROUTES.profile.en, "en")} />
+      <ModeView terminal={<ProfileTerminal locale="en" />} human={<ProfileDashboard locale="en" />} />
+    </>
+  );
 }
