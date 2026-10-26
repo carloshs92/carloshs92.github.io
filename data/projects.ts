@@ -47,6 +47,19 @@ export const projects: Project[] = [
     landing: "https://solfirme.carloshuamani.com",
   },
   {
+    slug: "simi",
+    name: "Simi",
+    year: 2026,
+    category: "juegos",
+    status: "demo",
+    description: {
+      es: "Juego para que niños de 5 a 8 años que todavía no leen aprendan a leer en quechua collao, quechua chanka y español. Sin texto en pantalla: voz, íconos y gestos. El niño reúne las illas, espíritus de sonido del canto roto del abuelo cóndor, y cada palabra devuelve el color a paisajes del Perú en low poly. Gratis y sin conexión, para Android y web.",
+      en: "Game that teaches children aged 5 to 8 who can't read yet to read in Collao Quechua, Chanka Quechua and Spanish. No on-screen text: voice, icons and gestures. The child gathers the illas, sound spirits from the condor grandfather's broken song, and each word brings color back to low-poly Peruvian landscapes. Free and offline, for Android and the web.",
+    },
+    stack: ["Unity", "C#", "URP", "Blender (bpy)", "Astro"],
+    landing: "https://simi.carloshuamani.com",
+  },
+  {
     slug: "model-ai-jev-demos",
     name: "Jev Demos (TypeSafe AI)",
     year: 2026,
