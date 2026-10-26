@@ -4,14 +4,13 @@
 
 import type { Text } from "@/lib/i18n";
 
-export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos" | "personal";
+export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos";
 
 export const categoryLabels: Record<ProjectCategory, Text> = {
   ia: "IA",
   frontend: "Frontend",
   testing: "Testing",
   juegos: { es: "Juegos", en: "Games" },
-  personal: "Personal",
 };
 
 export type Project = {
@@ -51,13 +50,13 @@ export const projects: Project[] = [
     slug: "simi",
     name: "Simi",
     year: 2026,
-    category: "personal",
-    status: "live",
+    category: "juegos",
+    status: "demo",
     description: {
-      es: "Proyecto personal. Conoce de qué se trata en su página de presentación.",
-      en: "Personal project. Find out what it's about on its landing page.",
+      es: "Juego para que niños de 5 a 8 años que todavía no leen aprendan a leer en quechua collao, quechua chanka y español. Sin texto en pantalla: voz, íconos y gestos. El niño reúne las illas, espíritus de sonido del canto roto del abuelo cóndor, y cada palabra devuelve el color a paisajes del Perú en low poly. Gratis y sin conexión, para Android y web.",
+      en: "Game that teaches children aged 5 to 8 who can't read yet to read in Collao Quechua, Chanka Quechua and Spanish. No on-screen text: voice, icons and gestures. The child gathers the illas, sound spirits from the condor grandfather's broken song, and each word brings color back to low-poly Peruvian landscapes. Free and offline, for Android and the web.",
     },
-    stack: [],
+    stack: ["Unity", "C#", "URP", "Blender (bpy)", "Astro"],
     landing: "https://simi.carloshuamani.com",
   },
   {
