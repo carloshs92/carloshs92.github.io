@@ -4,13 +4,14 @@
 
 import type { Text } from "@/lib/i18n";
 
-export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos";
+export type ProjectCategory = "ia" | "frontend" | "testing" | "juegos" | "personal";
 
 export const categoryLabels: Record<ProjectCategory, Text> = {
   ia: "IA",
   frontend: "Frontend",
   testing: "Testing",
   juegos: { es: "Juegos", en: "Games" },
+  personal: "Personal",
 };
 
 export type Project = {
@@ -45,6 +46,19 @@ export const projects: Project[] = [
     },
     stack: ["JavaScript", "Vite", "Web Audio", "Cloudflare Workers"],
     landing: "https://solfirme.carloshuamani.com",
+  },
+  {
+    slug: "simi",
+    name: "Simi",
+    year: 2026,
+    category: "personal",
+    status: "live",
+    description: {
+      es: "Proyecto personal. Conoce de qué se trata en su página de presentación.",
+      en: "Personal project. Find out what it's about on its landing page.",
+    },
+    stack: [],
+    landing: "https://simi.carloshuamani.com",
   },
   {
     slug: "model-ai-jev-demos",
